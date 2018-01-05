@@ -1,0 +1,93 @@
+﻿@model EMG.Model.ProfileView
+
+@{ 
+    ViewBag.Title = "修改個人資料";
+    Layout = null;
+}
+
+<h2>修改個人資料</h2>
+<p>請勿隨意修改資料</p>
+<p>請以真實狀況為主</p>
+
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div>
+            @Html.DisplayNameFor(m => m.Account)
+        </div>
+        <div>
+            @User.Identity.Name
+        </div>
+        <div>
+            @Html.DisplayNameFor(m => m.Name)
+            <div>
+                @Html.TextBoxFor(m => m.Name, new { @readonly = true })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.DisplayNameFor(m => m.Sex)
+            <div>
+                @Html.TextBoxFor(m => m.Sex, new { @readonly = true })
+                @Html.ValidationMessageFor(m => m.Sex, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.DisplayNameFor(m => m.Birth)
+            <div>
+                @Html.TextBoxFor(m => m.Birth, "{0:yyyy/MM/dd}", new { @readonly = true })
+                @Html.ValidationMessageFor(m => m.Birth, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.DisplayNameFor(m => m.Blood)
+            <div>
+                @Html.TextBoxFor(m => m.Blood, new { @readonly = true })
+                @Html.ValidationMessageFor(m => m.Blood, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.DisplayNameFor(m => m.Height)
+            <div>
+                @Html.TextBoxFor(m => m.Height)
+                @Html.ValidationMessageFor(m => m.Height, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.DisplayNameFor(m => m.Weight)
+            <div>
+                @Html.TextBoxFor(m => m.Weight)
+                @Html.ValidationMessageFor(m => m.Weight, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.DisplayNameFor(m => m.Disease)
+            <div>
+                @Html.TextAreaFor(m => m.Disease)
+                @Html.ValidationMessageFor(m => m.Disease, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.DisplayNameFor(m => m.Email)
+            <div>
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.DisplayNameFor(m => m.Phone)
+            <div>
+                @Html.TextBoxFor(m => m.Phone)
+                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <br />
+    <div>
+        <input type="submit" value="修改" class="btn btn-default" />
+    </div>
+}
+<div>
+    @Html.ActionLink("回到個人檔案", "Profile")
+</div>

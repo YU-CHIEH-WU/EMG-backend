@@ -1,0 +1,175 @@
+﻿@model EMG.Model.ProfileView
+
+@{ 
+    ViewBag.Title = "個人檔案";
+    Layout = null;
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+@Styles.Render("~/Content/main.css")
+
+<style type="text/css">
+    h2{
+        color:#FFF;
+    }
+    div{
+        font-size:18px;
+        color:#FFF;       
+    }
+    body {
+        background: #3d3d3d;
+    }
+    .block-user-photo {
+      width: 100px;
+      height: 100%;
+      margin-left:50px;
+      padding: 15px;
+      float: left;
+    }
+    .user-photo {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      position: relative;
+    }
+</style>
+
+<h2>個人檔案</h2>
+
+@using (Html.BeginForm())
+{
+    @*@Html.AntiForgeryToken()*@
+    <div class="block-user-photo">
+        <img class="user-photo" src="">
+    </div>
+    <div class="container">      
+        <div class="row">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-sm-2" style="text-align:right">
+                @Html.DisplayNameFor(m => m.Account)
+            </div>
+            <div class="col-sm-2" id="userName">
+                @User.Identity.Name
+            </div>
+            
+            <div class="col-sm-2" style="text-align:right">
+                @Html.DisplayNameFor(m => m.Name)               
+            </div>
+            <div class="col-sm-2">
+                @Model.Name
+            </div>
+            <div class="col-sm-2" style="text-align:right">
+                @Html.DisplayNameFor(m => m.Sex)             
+            </div>
+            <div class="col-sm-2">
+                @Model.Sex
+            </div>
+            <div class="col-sm-2" style="text-align:right">
+                @Html.DisplayNameFor(m => m.Birth)            
+            </div>
+            <div class="col-sm-2">
+                @Model.Birth.ToShortDateString().ToString()
+            </div>
+            <div class="col-sm-2" style="text-align:right">
+                @Html.DisplayNameFor(m => m.Blood)              
+            </div>
+            <div class="col-sm-2">
+                @Model.Blood
+            </div>
+            <div class="col-sm-2" style="text-align:right">
+                @Html.DisplayNameFor(m => m.Height)              
+            </div>
+            <div class="col-sm-2">
+                @Model.Height
+            </div>
+            <div class="col-sm-2" style="text-align:right">
+                @Html.DisplayNameFor(m => m.Weight)              
+            </div>
+            <div class="col-sm-2">
+                @Model.Weight
+            </div>
+            <div class="col-sm-2" style="text-align:right">
+                @Html.DisplayNameFor(m => m.Disease)               
+            </div>
+            <div class="col-sm-2">
+                @Model.Disease
+            </div>
+            <div class="col-sm-2" style="text-align:right">
+                @Html.DisplayNameFor(m => m.Email)
+            </div>
+            <div class="col-sm-2">
+                @Model.Email
+            </div>
+            <div class="col-sm-2" style="text-align:right">
+                @Html.DisplayNameFor(m => m.Phone)              
+            </div>
+            <div class="col-sm-2">
+                @Model.Phone
+            </div>
+            <div class="col-md-12" style="text-align:right">
+                @Html.ActionLink("修改個人資料", "UpdateProfile")
+                @Html.ActionLink("修改密碼", "ChangePassword")
+            </div>         
+        </div>       
+    </div>
+}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var user = document.getElementById('userName').innerHTML;
+        var usersrc = user.trim();
+        console.log(usersrc);
+        if (usersrc == "") {
+            $('.user-photo').attr("src", "https://www.hk.artsfestival.org/common/images/profile.jpg");
+        }
+        $('.user-photo').attr("src", "/FileUpload/" + usersrc + ".jpg");
+    });
+</script>
+@*<form class="form-horizontal col-md-10">
+    <div class="form-group form-group-sm">
+        @Html.HiddenFor(p => p.Account)
+        @Html.LabelFor(p => p.Name, "姓名", new { @class = "col-md-1" })
+        <div class="col-md-3">
+            @Html.TextBoxFor(p => p.Name, new { @class = "form-control", @readonly = true })
+        </div>
+        @Html.LabelFor(p => p.Sex, "性別", new { @class = "col-md-1" })
+        <div class="col-md-3">
+            @Html.TextBoxFor(p => p.Sex, new { @class = "form-control", @readonly = true })
+        </div>
+    </div>
+
+    <div class="form-group form-group-sm">
+        @Html.LabelFor(p => p.Birth, "出生日期", new { @class = "col-md-1" })
+        <div class="col-md-3">
+            @Html.TextBoxFor(p => p.Birth, new { @class = "form-control", @readonly = true })
+        </div>
+        @Html.LabelFor(p => p.Blood, "血型", new { @class = "col-md-1" })
+        <div class="col-md-3">
+            @Html.TextBoxFor(p => p.Blood, new { @class = "form-control", @readonly = true })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        @Html.LabelFor(p => p.Height, "身高", new { @class = "col-md-1" })
+        <div class="col-md-3">
+            @Html.TextBoxFor(p => p.Height, new { @class = "form-control", @readonly = true })
+        </div>
+        @Html.LabelFor(p => p.Weight, "體重", new { @class = "col-md-1" })
+        <div class="col-md-3">
+            @Html.TextBoxFor(p => p.Weight, new { @class = "form-control", @readonly = true })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(p => p.Score, "積分", new { @class = "col-md-1" })
+        <div class="col-md-3">
+            @Html.TextAreaFor(p => p.Score, new { @class = "form-control", rows = "5", @readonly = true })
+        </div>
+        @Html.LabelFor(p => p.Disease, "病歷", new { @class = "col-md-1" })
+        <div class="col-md-3">
+            @Html.TextAreaFor(p => p.Disease, new { @class = "form-control", rows = "5", @readonly = true })
+        </div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success manage" data-url="@Url.Action("UpdateProfile", "User")">修改個人資料</button>
+    </div>
+</form>*@

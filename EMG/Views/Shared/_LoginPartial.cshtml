@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <ul class="navbar-nav pull-right">
+        <li><a>@(User.Identity.Name)!</a>　</li>
+        <li>@Html.ActionLink("變更密碼", "ChangePassword", "User")　</li>
+        <li>@Html.ActionLink("登出", "Logout", "User")　</li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("註冊", "Register", "User", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("登入", "Login", "User", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

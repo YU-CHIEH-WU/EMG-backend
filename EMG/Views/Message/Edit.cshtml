@@ -1,0 +1,48 @@
+﻿@model EMG.Model.MessageView
+@{
+    ViewBag.Title = "修改留言";
+    Layout = null;
+}
+@if (Model.IsEdit != true)
+{
+    <h2>修改留言</h2>
+    using (Html.BeginForm())
+    {
+        <table border="1">
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m.Account)
+                </td>
+                <td>
+                    @Model.Account
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m.Title)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Title)
+                    @Html.ValidationMessageFor(m => m.Title)
+                </td>
+            </tr>
+           <tr>
+               <td>
+                   @Html.DisplayNameFor(m => m.Messages)
+               </td>
+               <td>
+                   @Html.TextBoxFor(m => m.Messages)
+                   @Html.ValidationMessageFor(m => m.Messages)
+               </td>
+           </tr>
+        </table>
+        <input type="submit" value="修改留言" />
+    }
+}
+else
+{
+    <text>此留言已修改過</text>
+    @Html.ActionLink("返回列表", "Index", "Message")
+}
+
+

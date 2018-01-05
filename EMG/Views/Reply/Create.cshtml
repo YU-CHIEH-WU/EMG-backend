@@ -1,0 +1,29 @@
+﻿@model EMG.Model.ReplyCreatView
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+@using (Ajax.BeginForm("Create", "Reply", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "MessageList" }))
+{
+    <table>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(m => m.Account)
+                @User.Identity.Name
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(m => m.mId)
+                @Html.TextBoxFor(m => m.mId, new { mId = ViewData, @readonly = true })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                新增回覆：
+                @Html.TextBoxFor(m => m.Replys) 
+                <input type="submit" value="回覆留言" />   
+            </td>
+        </tr>
+    </table>  
+}

@@ -1,0 +1,29 @@
+﻿@model EMG.Model.EditionView
+@{
+    ViewBag.Title = "Edition";
+    @Scripts.Render("~/Scripts/jquery.form.js")
+    @Scripts.Render("~/Scripts/File/FileUpload.js")
+    int id = ViewBag.id;
+}
+
+<h2>Edition</h2>
+<div id="FileUpload">
+    @using (Ajax.BeginForm("UploadEdition", "File", new { id = id }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "status",
+        InsertionMode = InsertionMode.Replace
+    }, new { enctype = "multipart/form-data" }))
+    {
+        @*@Html.AntiForgeryToken()*@
+        <input type="file" name="edition" id="files"><br>
+        <input type="submit" value="上傳新版本">
+    }
+    <div class="progress progress-striped" style="display:none;">
+        <div class="progress-bar progress-bar-success">0%</div>
+    </div>
+    <div id="status">
+        @Html.Partial("_EditionPartial", Model)
+    </div>
+</div>
+

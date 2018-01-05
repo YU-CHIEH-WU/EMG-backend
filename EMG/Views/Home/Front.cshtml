@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "入口網站";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en" ng-app="frontApp" ng-controller="frontController">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/screen.css">
+    <link rel="stylesheet" href="~/Content/front.css">
+</head>
+<body>
+    <div class="prev"><i class="fa fa-chevron-left fa-4x" ng-click="prevSlide()"></i></div>
+    <div class="next"><i class="fa fa-chevron-right fa-4x" ng-click="nextSlide()"></i></div>
+    <div class="block-slide block-slide-1" ng-class="slideStatus.slide1">投影片1</div>
+    <div class="block-slide block-slide-2" ng-class="slideStatus.slide2">投影片2</div>
+    <div class="block-slide block-slide-3" ng-class="slideStatus.slide3">投影片3</div>
+    <div class="block-slide block-slide-4" ng-class="slideStatus.slide4">投影片4</div>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-animate.min.js"></script>
+    <script src="~/Scripts/angular-touch.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/front.js"></script>
+</body>
+</html>

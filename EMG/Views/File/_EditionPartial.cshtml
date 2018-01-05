@@ -1,0 +1,30 @@
+﻿@model EMG.Model.EditionView
+<table class="table">
+    @foreach (var item in Model.fileList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayNameFor(p => p.fileList[0].Edition)
+                @item.Edition
+            </td>
+            <td>
+                @Html.DisplayNameFor(p => p.fileList[0].Name)
+                @item.Name
+            </td>
+            <td>
+                @Html.DisplayNameFor(p => p.fileList[0].UserName)
+                @item.UserName
+            </td>
+            <td>
+                @Html.DisplayNameFor(p => p.fileList[0].Date)
+                @item.Date
+            </td>
+            <td>
+                @Html.ActionLink("下載檔案", "Download", new { id = item.Id, edition = item.Edition })
+            </td>
+            <td>
+                @Html.ActionLink("刪除檔案", "Delete", new { id = item.Id, edition = item.Edition })
+            </td>
+        </tr>
+    }
+</table>

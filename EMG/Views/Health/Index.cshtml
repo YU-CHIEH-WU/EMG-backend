@@ -1,0 +1,22 @@
+﻿@model EMG.Model.Text
+@{ 
+    ViewBag.Title = "健康飲食資訊";
+    Layout = null;
+}
+@Scripts.Render("~/Scripts/ckeditor/ckeditor.js")
+@Scripts.Render("~/Scripts/config.js")
+
+@using (Html.BeginForm("Index", "Health", new { Title = Model.Title }))
+{
+    <div class="textTitle">
+        @if (Model.Title == "健康飲食資訊")
+        {<h1>健康飲食資訊</h1>}
+        <h4>@ViewBag.result</h4>
+        @Html.TextArea("Contents", new { @class = "ckeditor", @id = "editor1" })
+        <input type="submit" value="送出" id="Content" />
+    </div>
+    <br />
+    <div class="textback">
+        <p>@Html.Raw(Model.Contents)</p>
+    </div>
+}

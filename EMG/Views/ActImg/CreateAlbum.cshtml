@@ -1,0 +1,62 @@
+﻿@model EMG.Model.ActImgView
+@{
+    ViewBag.Title = "CreateAlbum";
+    Layout = null;
+}
+
+<style>
+    .albumTitle {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    a{
+    color:#FFF;
+    }
+</style>
+
+<div class="albumTitle">
+    <h2>新增相簿</h2>
+    @using (Html.BeginForm("CreateAlbum", "ActImg", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m.Sort)
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m.Sort, (IEnumerable<SelectListItem>)ViewBag.Sort)
+                    @Html.ValidationMessageFor(m => m.Sort, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.Brief)
+                </td>
+                <td>
+                    @Html.TextAreaFor(m => m.Brief, new { style = "width:250px; height:100px;" })
+                </td>
+            </tr>
+        </table>
+    <table>
+        <tr>
+            <td>
+                @Html.HiddenFor(m => m.Sort)
+                @Html.LabelFor(m => m.upload)
+
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.upload, new { type = "file" })
+                @Html.ValidationMessageFor(m => m.upload)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input class="inputbtn" type="submit" value="新增相簿" />
+            </td>
+        </tr>
+    </table>
+    }
+    @Html.ActionLink("返回相片首頁", "Index", "ActImg")
+</div>
+
+

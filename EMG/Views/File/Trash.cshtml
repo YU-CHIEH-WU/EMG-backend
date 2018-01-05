@@ -1,0 +1,36 @@
+﻿@model EMG.Model.FileListView
+@{
+    ViewBag.Title = "Trash";
+}
+
+<h2>Trash</h2>
+<table class="table">
+    @foreach (var item in Model.FirstFile)
+    {
+        <tr>
+            <td>
+                @Html.DisplayNameFor(p => p.FirstFile[0].Id)
+                @item.Id
+            </td>
+            <td>
+                @Html.DisplayNameFor(p => p.FirstFile[0].Edition)
+                @item.Id;
+            </td>
+            <td>
+                @Html.DisplayNameFor(p => p.FirstFile[0].Name)
+                @item.Name
+            </td>
+            <td>
+                @Html.DisplayNameFor(p => p.FirstFile[0].Type)
+                @item.Type
+            </td>
+            <td>
+                @Html.DisplayNameFor(p => p.FirstFile[0].UserName)
+                @item.UserName
+            </td>
+            <td>
+                @Html.ActionLink("確認刪除", "DeleteConfirm", new { id = item.Id, edition = item.Edition })
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,41 @@
+﻿@model EMG.Model.ReplyView
+@{
+    ViewBag.Title = "修改回覆";
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+    <h4>修改回覆</h4>
+    @using (Html.BeginForm())
+    {
+        <table border="1">
+
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.Account)
+                </td>
+                <td>
+                    @User.Identity.Name
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(m => m.mId)             
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.mId, new { mId = ViewData, @readonly = true })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.Replys)
+                </td>
+                <td>
+                    @Html.TextAreaFor(m => m.Replys)
+                    @Html.ValidationMessageFor(m => m.Replys)
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="修改回覆" />
+    }

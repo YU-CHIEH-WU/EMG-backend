@@ -1,0 +1,37 @@
+﻿@model EMG.Model.ReplyListView
+@{
+    ViewBag.Title = "DataList";
+}
+
+    @if (!Model.DataList.Count.Equals(0))
+    {
+        <table border="1" width="500">
+            <tr>
+                <td colspan="4">
+                    留言回覆
+                </td>
+            </tr>
+            @foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td width="440">
+                        @item.Account 說： @item.Replys<br />
+                        @Html.DisplayNameFor(m => m.ReplyTime)
+                        @item.ReplyTime
+                    </td>
+                    <td>
+                         @if(User.Identity.Name == item.Account)
+                         {
+                             @Html.ActionLink("修改回覆", "Edit", new { rId = item.RId })
+                             @Html.ActionLink("刪除留言", "Delete", new { rId = item.RId })
+                         }
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+
+
+
+
+

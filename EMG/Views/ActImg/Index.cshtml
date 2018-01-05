@@ -1,0 +1,126 @@
+﻿@model EMG.Model.ActImgView
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<style>
+/*相簿*/
+.albumback{
+	position:absolute;
+	margin-left:80px;
+	margin-right:80px;
+	margin-bottom:50px;
+}
+
+.album{
+	float:left;
+	padding-top:20px;
+	padding-left:15px;
+	padding-right:15px;
+	height:270px;
+	width:295px;
+}
+.albumImg{
+	text-align:center;
+	width:265px;
+	height:200px;
+}
+.albumImg img{
+	height:100%;
+}
+.album p{
+	text-align:center;
+}
+.albumTitle{
+	margin-left:80px;
+	margin-right:80px;
+}
+.albumTitle h2{
+	font-family:微軟正黑體;
+	font-weight:bold;
+}
+.albumTitle img{
+	padding-top:15px;
+	padding-bottom:10px;
+}
+.albumTitle p{
+	font-family:'微軟正黑體';
+	font-weight:bold;
+	font-size:18px;
+}
+.albumTitle table tr{
+	line-height: 25px;
+}
+.upload{
+	margin-left:80px;
+	margin-right:80px;
+	margin-bottom:20px;
+}
+.upload p{
+	line-height:15px;
+	font-size:18px;
+	font-family:'Microsoft JhengHei';
+}
+.calbum{
+	float:left;
+	padding-top:20px;
+	padding-left:15px;
+	padding-right:15px;
+	height:280px;
+	width:400px;
+}
+.calbumImg{
+	text-align:center;
+	width:370px;
+	height:200px;
+}
+.calbumImg img{
+	height:100%;
+}
+.calbum p{
+	text-align:center;
+}
+.inputbtn{
+	width:80px;
+	height:30px;
+	background-color:#428bca;
+	color:white;
+	border:none;
+	border-radius:4px;
+}
+a{
+    color:#FFF;
+}
+</style>
+
+<div class="albumTitle">
+    
+    <p>
+        @Html.ActionLink("新增相片", "UploadPhoto", "ActImg", new { Sort = Model.Sort }, null)
+    </p>
+</div>
+<div class="albumback">
+    @if (!Model.actImgList.Count.Equals(0))
+    {
+        foreach (var item in Model.actImgList)
+        {
+            <div>
+                <div>
+                    <a href="~/ActImg/Upload?Sort=@item.Sort"><img src="@Html.Encode(Url.Content("~/FileUpload/" + item.Img))" /></a>
+                </div>
+                <p>
+                    @Html.ActionLink(item.Sort, "Upload", "ActImg", new { Sort = item.Sort }, null)
+                </p>
+                <p>
+                    @Html.ActionLink("刪除相簿", "DeleteAlbum", "ActImg", new { Sort = item.Sort }, null)
+                </p>
+            </div>
+        }
+    }
+    else
+    {
+        <text>目前沒有相簿</text>
+    }
+</div>
+

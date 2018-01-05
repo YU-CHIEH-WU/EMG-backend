@@ -1,0 +1,1044 @@
+﻿
+@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en" ng-app="mainApp" ng-controller="blockController">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FIT ME總覽首頁</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="~/Content/screen.css">
+    <link rel="stylesheet" href="~/Content/main.css">
+</head>
+
+<body ng-class="{unscroll:isDetailActive,unscroll:isCourseClick,unscroll:isRegisterClick}">
+    <div class="container">
+        <div class="row">
+            <!-- 主頁面 -->
+            <div class="block-container" ng-class="{gotop:isDetailActive,ontop:isOntop,filter:isCourseClick,filter:isRegisterClick,filter:isPhotoClick}" when-transition-end="setOntop()">
+                <div class="col-md-3 col-xs-6 block-outer">
+                    <!-- 會員 -->
+                    <!-- TODO: ProgressButtonStyles -->
+                    <div class="block-inner" id="block-user">
+                        <div class="block-header">會員</div>
+                        <div class="block-body">
+                            <!-- 未登入 -->
+                            <div style="height: 62px;"><img src="http://163.17.136.197:8080/EMG/images/LOGO.png"></div>
+                            <div class="block-login-input form-group text-center" ng-if="!isLogin">
+                                <input type="text" id="input-account" class="form-control" placeholder="Account" ng-model="login.account" ng-disabled="loginLoading">
+                                <input type="password" id="input-password" class="form-control" placeholder="Password" ng-model="login.password" ng-disabled="loginLoading">
+                                <button type="button" class="btn btn-normal" id="btn-login" ng-class="{active:loginLoading}" ng-click="login()" ng-disabled="loginLoading">{{loginMessage}}</button>
+                            </div>
+                            <div class="block-register-input text-center" ng-show="!isLogin">
+                                <button type="button" class="btn btn-normal" id="btn-register" ng-click="register()" ng-disabled="loginLoading">還沒有帳號嗎？點我註冊</button>
+                                @*@Html.ActionLink("還沒有帳號嗎？點我註冊", "Register", "User", null, new { @class = "btn btn-normal", @id = "btn-register" })*@
+                            </div>
+                            <!-- 登入 -->
+                            <div class="block-user text-center" ng-if="isLogin">
+                                <div class="user-photo">
+                                    <img ng-src="{{loginUser.photo}}">
+                                </div>
+                                <div class="user-name">
+                                    <p>{{loginUser.name}}</p>
+                                </div>
+                                <div class="user-board">
+                                    @*<button class="btn btn-default" id="btn-board" ng-submit="toBoard()">前往個人首頁</button>*@
+                                    <button type="button" class="btn btn-default" id="btn-board" ng-click="goBoard()">前往個人首頁</button>
+                                    @*@Html.ActionLink("登出", "Index", "Home", null, new { @class = "btn btn-flat", @id = "btn-logout" })*@
+                                    <button type="button" class="btn btn-flat" id="btn-logout" ng-click="logout()">登出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 最新消息 -->
+                <div class="col-md-3 col-xs-6 block-outer">
+                    <div class="block-inner" id="block-news">
+                        <div class="block-header">
+                            <span class="title pull-left">最新消息</span>
+                            <button class="pull-right btn btn-default" ng-if="isAdmin()" ng-click="showDetail5()">編輯</button>
+                        </div>
+                        <div class="block-body">
+                            <div class="scroller news-scroller">
+                                <div class="block-title-list" ng-click="showDetail4(news)" ng-repeat="news in newsList">
+                                    <div class="block-title-news">{{news.title}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 名人榜 -->
+                <div class="col-md-3 col-xs-6 block-outer">
+                    <div class="block-inner" id="block-fame">
+                        <div class="block-header">名人榜</div>
+                        <div class="block-body">
+                            <div class="block-fame slide">
+                                <div class="block-fame-list" ng-class="[fame.slide,fame.opacity]" ng-repeat="fame in fameList">
+                                    <div class="block-fame-title">{{fame.title}}</div>
+                                    <div class="block-fame-thumb"><img ng-src="{{fame.thumb}}"></div>
+                                    <div class="block-fame-name">{{fame.name}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 訓練成果相簿 -->
+                <div class="col-md-3 col-xs-6 block-outer">
+                    <div class="block-inner" id="block-album">
+                        <div class="block-header">訓練成果相片</div>
+                        <div class="block-body">
+                            <div class="block-album-thumb" ng-click="showDetail3()">
+                                <img src="http://163.17.136.197:8080/EMG/images/T51.jpg" alt="" style="width:100%;height:260px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 大數據分析 -->
+                <div class="col-md-6 col-xs-6 block-outer">
+                    <div class="block-inner" id="block-bigdata1">
+                        <div class="block-header">大數據分析</div>
+                        <div class="block-body">
+                            <div class="block-thumb" id="block-bigdata1-thumb"></div>
+                            <div class="block-slide">
+                                <span ng-click="showBigdata('want')"><i class="fa" ng-class="{'fa-circle':bigdata.want,'fa-circle-o':!bigdata.want}"></i></span>
+                                <span ng-click="showBigdata('focus')"><i class="fa" ng-class="{'fa-circle':bigdata.focus,'fa-circle-o':!bigdata.focus}"></i></span>
+                                <span ng-click="showBigdata('motivation')"><i class="fa" ng-class="{'fa-circle':bigdata.motivation,'fa-circle-o':!bigdata.motivation}"></i></span>
+                                <span ng-click="showBigdata('age')"><i class="fa" ng-class="{'fa-circle':bigdata.age,'fa-circle-o':!bigdata.age}"></i></span>
+                                <span ng-click="showBigdata('dot')"><i class="fa" ng-class="{'fa-circle':bigdata.dot,'fa-circle-o':!bigdata.dot}"></i></span>
+                            </div>
+                            <div class="block-sex">
+                                <button type=button class="btn btn-sex" ng-class="{active:isMale}" ng-click="changeSex('male')"><i class="fa fa-mars fa-lg icon-show" ng-class="{active:isMale}"></i></button>
+                                <button type=button class="btn btn-sex" ng-class="{active:isFemale}" ng-click="changeSex('female')"><i class="fa fa-venus fa-lg icon-show" ng-class="{active:isFemale}"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 論壇 -->
+                <div class="col-md-6 col-xs-6 block-outer">
+                    <div class="block-inner" id="block-bigdata4">
+                        <div class="block-header">肌友交流</div>
+                        <div class="block-body">
+                            <div class="block-message" ng-click="showDetail6()">
+                                <img src="http://163.17.136.197:8080/EMG/images/message.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 熱門課程 -->
+                <div class="col-md-4 col-xs-4 block-outer">
+                    <div class="block-inner" id="block-popular" ng-click="showCourse('popular')">
+                        <div class="block-header">熱門課程</div>
+                        <div class="block-body">
+                            <img src="http://163.17.136.197:8080/EMG/images/popular.gif">
+                        </div>
+                    </div>
+                </div>
+                <!-- 部位課程 -->
+                <div class="col-md-4 col-xs-4 block-outer">
+                    <div class="block-inner" id="block-part" ng-click="showCourse('part')">
+                        <div class="block-header">部位課程</div>
+                        <div class="block-body">
+                            <img src="http://163.17.136.197:8080/EMG/images/part.gif">
+                        </div>
+                    </div>
+                </div>
+                <!-- 減脂課程 -->
+                <div class="col-md-4 col-xs-4 block-outer">
+                    <div class="block-inner" id="block-bodyfat" ng-click="showCourse('bodyfat')">
+                        <div class="block-header">減脂課程</div>
+                        <div class="block-body">
+                            <img src="http://163.17.136.197:8080/EMG/images/bodyfat.gif">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 註冊 -->
+            <div class="block-register-outer" ng-if="isRegisterClick" ng-click="hideRegister()" ng-class="{active:isRegisterShow}"></div>
+            <div class="block-inner block-register-inner" ng-if="isRegisterClick" ng-class="{active:isRegisterShow}">
+                <div class="block-header"><span class="title">註冊</span><span class="back" ng-click="hideRegister()"><i class="fa fa-times icon-back"></i></span></div>
+                <div class="block-body slide">
+                    <div class="scroller">
+                        <div class="block-register-form" ng-class="{active:isFormShow}">
+                            <form name="form.registerForm">
+                                <section class="clearfix">
+                                    <div class="block-register-profile">
+                                        <img id="output" style="width:126px; height:126px;" ng-src={{registerUser.url}}>
+                                    </div>
+                                    <div class="block-register-profile">
+                                        <input type="file" name="file" id="input-profile" fileread="registerUser.url">
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="Img" data-valmsg-replace="true"></span>
+                                    </div>
+                                </section>
+                                <section class="clearfix register-fixright">
+                                    <div class="register-left">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                帳號
+                                            </label>
+                                            <input type="text" class="form-control" ng-minlength=8 ng-maxlength=20 required ng-focus="inputFocus('account')" ng-blur="inputBlur('account')" ng-model="registerUser.account" name="account">
+                                        </div>
+                                        <div class="form-valid">
+                                            <span class="valid-error" ng-if="form.registerForm.account.$error.minlength && registerBlur.account">帳號長度需大於8個字元</span>
+                                            <span class="valid-error" ng-if="form.registerForm.account.$error.maxlength && registerBlur.account">帳號長度需小於20個字元</span>
+                                            <span class="valid-error" ng-if="form.registerForm.account.$error.required && registerBlur.account">請輸入帳號!</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                密碼
+                                            </label>
+                                            <input type="password" class="form-control" ng-minlength=6 ng-maxlength=20 required ng-focus="inputFocus('password')" ng-blur="inputBlur('password')" ng-model="registerUser.password" name="password">
+                                        </div>
+                                        <div class="form-valid">
+                                            <span class="valid-error" ng-if="form.registerForm.password.$error.minlength && registerBlur.password">密碼長度需大於6個字元</span>
+                                            <span class="valid-error" ng-if="form.registerForm.password.$error.maxlength && registerBlur.password">密碼長度需小於20個字元</span>
+                                            <span class="valid-error" ng-if="form.registerForm.password.$error.required && registerBlur.password">請輸入密碼!</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                密碼確認
+                                            </label>
+                                            <input type="password" class="form-control" required ng-match="registerUser.password" ng-focus="inputFocus('passwordMatch')" ng-blur="inputBlur('passwordMatch')" ng-model="registerUser.passwordMatch" name="passwordMatch">
+                                        </div>
+                                        <div class="form-valid">
+                                            <span class="valid-error" ng-if="form.registerForm.passwordMatch.$error.match && registerBlur.passwordMatch">密碼與密碼確認不相同</span>
+                                            <span class="valid-error" ng-if="form.registerForm.passwordMatch.$error.required && registerBlur.passwordMatch">請輸入密碼確認!</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                姓名
+                                            </label>
+                                            <input type="text" id="name" class="form-control" required ng-focus="inputFocus('name')" ng-blur="inputBlur('name')" ng-model="registerUser.name" name="name">
+                                        </div>
+                                        <div class="form-valid">
+                                            <span class="valid-error" ng-if="form.registerForm.name.$error.required && registerBlur.name">請輸入姓名!</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                性別
+                                            </label>
+                                            <select type="text" class="form-control" required ng-focus="inputFocus('sex')" ng-blur="inputBlur('sex')" ng-model="registerUser.sex" name="sex">
+                                                <option selected="selected" value=""></option>
+                                                <option value="男">男</option>
+                                                <option value="女">女</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-valid">
+                                            <span class="valid-error" ng-if="form.registerForm.sex.$error.required && registerBlur.sex">請輸入性別!</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                生日
+                                            </label>
+                                            <input type="text" id="birth" class="form-control" required ng-focus="inputFocus('birth')" ng-blur="inputBlur('birth')" ng-model="registerUser.birth" name="birth">
+                                        </div>
+                                        <div class="form-valid">
+                                            <span class="valid-error" ng-if="form.registerForm.birth.$error.required && registerBlur.birth">請輸入生日!</span>
+                                        </div>
+                                    </div>
+                                    <div class="register-right">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                血型
+                                            </label>
+                                            <select class="form-control" required ng-focus="inputFocus('blood')" ng-blur="inputBlur('blood')" ng-model="registerUser.blood" name="blood">
+                                                <option selected="selected" value=""></option>
+                                                <option value="A">A</option>
+                                                <option value="B">B</option>
+                                                <option value="O">O</option>
+                                                <option value="AB">AB</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-valid">
+                                            <span class="valid-error" ng-if="form.registerForm.blood.$error.required && registerBlur.blood">請輸入血型!</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                身高
+                                            </label>
+                                            <input type="number" step="any" class="form-control" required ng-focus="inputFocus('height')" ng-blur="inputBlur('height')" ng-model="registerUser.height" name="height">
+                                        </div>
+                                        <div class="form-valid">
+                                            <span class="valid-error" ng-if="form.registerForm.height.$error.required && registerBlur.height">請輸入身高!</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                體重
+                                            </label>
+                                            <input type="number" step="any" class="form-control" required ng-focus="inputFocus('weight')" ng-blur="inputBlur('weight')" ng-model="registerUser.weight" name="weight">
+                                        </div>
+                                        <div class="form-valid">
+                                            <span class="valid-error" ng-if="form.registerForm.weight.$error.required && registerBlur.weight">請輸入體重!</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                病歷
+                                            </label>
+                                            <input type="text" class="form-control" ng-focus="inputFocus('disease')" ng-blur="inputBlur('disease')" ng-model="registerUser.disease" name="disease">
+                                        </div>
+                                        <div class="form-valid">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                Email
+                                            </label>
+                                            <input type="text" class="form-control" ng-focus="inputFocus('email')" ng-blur="inputBlur('email')" ng-model="registerUser.email" name="email">
+                                        </div>
+                                        <div class="form-valid">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                手機
+                                            </label>
+                                            <input type="text" class="form-control" ng-focus="inputFocus('phone')" ng-blur="inputBlur('phone')" ng-model="registerUser.phone" name="phone">
+                                        </div>
+                                        <div class="form-valid">
+                                        </div>
+                                    </div>
+                                </section>
+                                <section class="clearfix">
+                                    <button class="btn btn-flat btn-lg pull-right" ng-click="doQuest($event)">下一步</button>
+                                </section>
+                            </form>
+                        </div>
+                        <div class="block-register-quest" ng-if="isQuestClick" ng-class="{active:isQuestShow}">
+                            <div class="register-scroller scroller">
+                                <form name="form.habitForm">
+                                    <section>
+                                        <div class="form-group">
+                                            1. 您平常是否有控制飲食的習慣?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.control" class="radio" name="control" type="radio" value="有控制飲食習慣"> 有控制飲食習慣
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.control" class="radio" name="control" type="radio" value="稍微有控制"> 稍微有控制
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.control" class="radio" name="control" type="radio" value="沒有控制飲食習慣"> 沒有控制飲食習慣
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            2. 您平常吃水果的習慣為何?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.fruit" class="radio" name="fruit" type="radio" value="溫帶水果(蘋果、杏子、櫻桃、桃子、李子及梨子等)">溫帶水果(蘋果、杏子、櫻桃、桃子、李子及梨子等)
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.fruit" class="radio" name="fruit" type="radio" value="亞熱帶水果(柚子、檸檬、柑橘、無花果、石榴、酪梨等)">亞熱帶水果(柚子、檸檬、柑橘、無花果、石榴、酪梨等)
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.fruit" class="radio" name="fruit" type="radio" value="熱帶水果(荔枝、木瓜、鳳梨等)">熱帶水果(荔枝、木瓜、鳳梨等)
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input class="radio" ng-model="registerHabit.fruit" type="radio" ng-click="selectOther('fruit')" value="其他"><span ng-if="registerHabit.fruit!='其他'">其他</span>
+                                                    <input type="text" ng-model="otherValue.fruit" ng-if="registerHabit.fruit=='其他'" class="form-control input-sm" placeholder="其他" name="fruit">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            3. 您的消化能力為何?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.ability" class="radio" name="ability" type="radio" value="很好">很好
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.ability" class="radio" name="ability" type="radio" value="好">好
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.ability" class="radio" name="ability" type="radio" value="普通">普通
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.ability" class="radio" name="ability" type="radio" value="不好">不好
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.ability" class="radio" name="ability" type="radio" value="非常不好">非常不好
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            4. 您用餐是否定時定量?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.ontime" class="radio" name="ontime" type="radio" value="是">是
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.ontime" class="radio" name="ontime" type="radio" value="否">否
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            5. 您平常吃多少用油炸的、或用油煎的食物?(1 份以半碗計算)(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.fry" class="radio" name="fry" type="radio" value="不吃或每週少於1份">不吃或每週少於1份
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.fry" class="radio" name="fry" type="radio" value="每週吃1-3份">每週吃1-3份
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.fry" class="radio" name="fry" type="radio" value="每週吃4-6份">每週吃4-6份
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="fry" class="radio" name="fry" type="radio" value="每天吃1份">每天吃1份
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.fry" class="radio" name="fry" type="radio" value="每天吃2份或以上">每天吃2份或以上
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            6. 您平常有沒有喝含糖飲料?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.drink" class="radio" name="drink" type="radio" value="不喝或每週少於1杯">不喝或每週少於1杯
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.drink" class="radio" name="drink" type="radio" value="每週喝1-3杯">每週喝1-3杯
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.drink" class="radio" name="drink" type="radio" value="每週喝4-6杯">每週喝4-6杯
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.drink" class="radio" name="drink" type="radio" value="每天喝1杯">每天喝1杯
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.drink" class="radio" name="drink" type="radio" value="每天喝2杯或以上">每天喝2杯或以上
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            7. 您的睡眠品質如何?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.quality" class="radio" name="quality" type="radio" value="很好">很好
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.quality" class="radio" name="quality" type="radio" value="好">好
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.quality" class="radio" name="quality" type="radio" value="普通">普通
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.quality" class="radio" name="quality" type="radio" value="不好">不好
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.quality" class="radio" name="quality" type="radio" value="非常不好">非常不好
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            8. 您每週運動的次數 (單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sportnum" class="radio" name="portnum" type="radio" value="0次">0次
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sportnum" class="radio" name="portnum" type="radio" value="1次">1次
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sportnum" class="radio" name="portnum" type="radio" value="2次">2次
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sportnum" class="radio" name="portnum" type="radio" value="3次以上">3次以上
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            9. 您每次運動的時間 (單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sporttime" class="radio" name="sporttime" type="radio" value="30分鐘以下">30分鐘以下
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sporttime" class="radio" name="sporttime" type="radio" value="30-60分鐘">30-60分鐘
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sporttime" class="radio" name="sporttime" type="radio" value="60-120分鐘">60-120分鐘
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sporttime" class="radio" name="sporttime" type="radio" value="120分鐘以上">120分鐘以上
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            10. 您喜愛的運動項目是什麼?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sports" class="radio" name="sports" type="radio" value="籃球">籃球
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sports" class="radio" name="sports" type="radio" value="排球">排球
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sports" class="radio" name="sports" type="radio" value="棒球">棒球
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sports" class="radio" name="sports" type="radio" value="羽球">羽球
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sports" class="radio" name="sports" type="radio" value="桌球">桌球
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sports" class="radio" name="sports" type="radio" value="短跑">短跑
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sports" class="radio" name="sports" type="radio" value="長跑">長跑
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.sports" class="radio" name="sports" type="radio" value="拳擊">拳擊
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input class="radio" ng-model="registerHabit.sports" type="radio" value="其他"><span ng-if="registerHabit.sports!='其他'">其他</span>
+                                                    <input type="text" ng-model="otherValue.sports" ng-if="registerHabit.sports=='其他'" class="form-control input-sm" placeholder="其他" name="sports">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            11. 您健身最大的動機為?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.motivation" class="radio" name="motivation" type="radio" value="讓自己的身體保持健康">讓自己的身體保持健康
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.motivation" class="radio" name="motivation" type="radio" value="讓自己的體態變得更好看">讓自己的體態變得更好看
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.motivation" class="radio" name="motivation" type="radio" value="增加肌肉強度達到最高境界">增加肌肉強度達到最高境界
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.motivation" class="radio" name="motivation" type="radio" value="降低體脂肪">降低體脂肪
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input class="radio" ng-model="registerHabit.motivation" type="radio" value="其他"><span ng-if="registerHabit.motivation!='其他'">其他</span>
+                                                    <input type="text" ng-model="otherValue.motivation" ng-if="registerHabit.motivation=='其他'" class="form-control input-sm" placeholder="其他" name="motivation">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            12. 您在健身中屬於哪個等級?
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.grade" class="radio" name="grade" type="radio" value="初學">初學
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.grade" class="radio" name="grade" type="radio" value="中階">中階
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.grade" class="radio" name="grade" type="radio" value="進階">進階
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            13. 您注重的肌肉部位?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.place" class="radio" name="place" type="radio" value="均衡發展">均衡發展
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.place" class="radio" name="place" type="radio" value="胸部">胸部
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.place" class="radio" name="place" type="radio" value="腹部">腹部
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.place" class="radio" name="place" type="radio" value="背部">背部
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.place" class="radio" name="place" type="radio" value="肩膀">肩膀
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.place" class="radio" name="place" type="radio" value="腿部">腿部
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.place" class="radio" name="place" type="radio" value="肱二頭肌">肱二頭肌
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.place" class="radio" name="place" type="radio" value="肱三頭肌">肱三頭肌
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            14. 男 / 女最想看異性的哪個肌肉部位?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.look" class="radio" name="look" type="radio" value="胸部">胸部
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.look" class="radio" name="look" type="radio" value="腹部">腹部
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.look" class="radio" name="look" type="radio" value="背部">背部
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.look" class="radio" name="look" type="radio" value="肩膀">肩膀
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.look" class="radio" name="look" type="radio" value="腿部">腿部
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.look" class="radio" name="look" type="radio" value="肱二頭肌">肱二頭肌
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.look" class="radio" name="look" type="radio" value="肱三頭肌">肱三頭肌
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            15. 下列哪個選項能讓您更有意欲持續健身?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.want" class="radio" name="want" type="radio" value="維持身體健康">維持身體健康
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.want" class="radio" name="want" type="radio" value="與同好互相競爭">與同好互相競爭
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.want" class="radio" name="want" type="radio" value="從健身當中獲得成就感">從健身當中獲得成就感
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.want" class="radio" name="want" type="radio" value="滿足自身對於健身的要求">滿足自身對於健身的要求
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input class="radio" ng-model="registerHabit.want" type="radio" value="其他"><span ng-if="registerHabit.want!='其他'">其他</span>
+                                                    <input type="text" ng-model="otherValue.want" ng-if="registerHabit.want=='其他'" class="form-control input-sm" placeholder="其他" name="want">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            16. 您在健身時，對自己的要求為何?(單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.request" class="radio" name="request" type="radio" value="嚴格要求自己">嚴格要求自己
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.request" class="radio" name="request" type="radio" value="保持一定水準">保持一定水準
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.request" class="radio" name="request" type="radio" value="放鬆按部就班">放鬆按部就班
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.request" class="radio" name="request" type="radio" value="不與他人比較">不與他人比較
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input class="radio" ng-model="registerHabit.request" type="radio" value="其他"><span ng-if="registerHabit.request!='其他'">其他</span>
+                                                    <input type="text" ng-model="otherValue.request" ng-if="registerHabit.request=='其他'" class="form-control input-sm" placeholder="其他" name="request">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            17. 未來是否願意增加健身計劃 (單選)
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.increase" class="radio" name="increase" type="radio" value="是">是
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input ng-model="registerHabit.increase" class="radio" name="increase" type="radio" value="否">否
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section class="questend">
+                                        <button class="btn btn-flat btn-lg col-sm-offset-7" ng-click="regsiterSubmit($event)">註冊</button>
+                                    </section>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 推薦課程詳細 -->
+            @*<div class="block-course-outer" ng-if="isCourseClick" ng-click="hideCourse()" ng-class="{active:isCourseShow}">
+            </div>*@
+            @*<div class="block-inner block-course-inner" ng-if="isCourseClick" ng-class="{active:isCourseShow}">
+                <div class="block-header"><span class="title">{{courseTitle}}</span><span class="back" ng-click="hideCourse()"><i class="fa fa-times icon-back"></i></span></div>
+                <div class="block-body slide">
+                    <div class="course-scroller" ng-class="{active:isPositionShow}">
+                        <div class="course-list" ng-repeat="course in courseList">
+                            <p>{{course.days}}</p>
+                            <div class="course-position" ng-click="showPositionDetail(course.pos1)">
+                                <p>{{course.pos1}}</p>
+                            </div>
+                            <div class="course-position" ng-click="showPositionDetail(course.pos2)">
+                                <p>{{course.pos2}}</p>
+                            </div>
+                            <div class="course-position" ng-click="showPositionDetail(course.pos3)">
+                                <p>{{course.pos3}}</p>
+                            </div>
+                            <div class="course-position" ng-click="showPositionDetail(course.pos4)">
+                                <p>{{course.pos4}}</p>
+                            </div>
+                            <div class="course-position" ng-click="showPositionDetail(course.pos5)">
+                                <p>{{course.pos5}}</p>
+                            </div>
+                            <div class="course-position" ng-click="showPositionDetail(course.pos6)">
+                                <p>{{course.pos6}}</p>
+                            </div>
+                        </div>
+                    </div>*@
+                    <!-- 動作詳細 -->
+                    @*<div class="position-detail" ng-class="{active:isPositionShow}">
+                        <p>{{posture.name}}</p>
+                        <p>動作詳細說明（圖解或影片）</p>
+                        <br>
+                        <div class="posture-video">
+                            <iframe class="posture-iframe" ng-src="{{posture.src}}"></iframe>
+                        </div>                    
+                        <button class="btn btn-flat" ng-click="backCourseList()">返回課程預覽</button>
+                    </div>
+                </div>
+            </div>*@
+            <div class="block-recommend-outer" ng-if="isCourseClick" ng-click="hideCourse()" ng-class="{active:isCourseShow}">
+            </div>
+            <div class="block-inner block-recommend-inner" ng-if="isCourseClick" ng-class="{active:isCourseShow}">
+                <div class="block-header"><span class="title">{{courseTitle}}</span><span class="back" ng-click="hideCourse()"><i class="fa fa-times icon-back"></i></span></div>
+                <div class="block-body slide">
+                    <div class="recommend-scroller" ng-class="{active:isPositionShow}">
+                        <div class="recommend-list-outer col-sm-4" ng-repeat="course in courseList">
+                            <div class="recommend-list-inner">
+                                <p>{{course.day}}</p>
+                                <div class="recommend-position" ng-repeat="position in course.position" ng-click="showPositionDetail(position.pos)">
+                                    <p>{{position.pos}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="recommend-option">
+                            <button class="btn btn-flat">關注課程</button>
+                            <button class="btn btn-flat">加入課程</button>
+                        </div>
+                    </div>
+                    <!-- 動作詳細 -->
+                    <div class="position-detail" ng-class="{active:isPositionShow}">
+                        <p>{{positionName}}</p>
+                        <p>動作詳細說明（圖解或影片）</p>
+                        <br>
+                        <br>
+                        <button class="btn btn-flat" ng-click="backCourseList()">返回課程預覽</button>
+                    </div>
+                </div>
+            </div>
+            <div class="block-detail-outer" ng-class="{active:isDetailActive}" ng-click="showIndex()"></div>
+            @*<div class="block-detail-outer" ng-class="{active:isDetailActive}" ng-click="showIndex()"></div>*@
+            <!-- 詳細block3(相簿) -->
+            <div class="block-detail" id="block-detail-3" ng-class="{active:detail3Active}">
+                <div class="block-header"><span class="title">訓練成果相片</span><span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span></div>
+                <div class="block-body slide">
+                    <div class="detail-album-list" ng-class="{active:isAlbumListShow}">
+                        <div class="detail-album-outer" ng-repeat="album in albumList">
+                            <div class="detail-album-inner" ng-click="showPhotoList(album)">
+                                <div class="album-title">{{album.name}}</div>
+                                <div class="album-thumb"><img ng-src="{{album.photoList[0].src}}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-photo-list" ng-class="{active:isPhotoListShow}">
+                        <div class="photo-bar" ng-if="isPhotoListShow">
+                            <div class="photo-back">
+                                <button class="btn btn-flat" ng-click="showAlbumList()">返回相簿列表</button>
+                            </div>
+                            <div class="photo-title" ng-if="isPhotoListShow">{{photo.title}}</div>
+                        </div>
+                        <div class="scroller">
+                            <div class="photo-list">
+                                <div class="photo-outer" ng-repeat="photo in photo.list">
+                                    <div class="photo-inner" ng-click="showPhoto(photo)"><img ng-src="{{photo.src}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="photo-detail" ng-click="backPhotoList()" ng-if="isPhotoClick" ng-class="{active:isPhotoShow}">
+                <img class="detail-image" ng-src="{{detailPhoto.src}}">
+            </div>
+            <!-- 詳細block4 -->
+            <div class="block-detail" id="block-detail-4" ng-class="{active:detail4Active}">
+                <div class="prev"></div>
+                <div class="next"></div>
+                <div class="block-header">
+                    <sapn class="title">{{detailTitle}}</sapn><span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span>
+                </div>
+                <div class="block-body">
+                    <div class="detail-content">
+                        <div class="scroller content-scroller">
+                            <p ng-bind-html="detailContent"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-bar" ng-class="{active:detail4Active}">
+                <div class="bar-search-2">
+                    <i class="fa fa-search inline-search"></i>
+                    <input type="text" class="input-search" ng-model="search.title">
+                </div>
+            </div>
+            <div class="detail-list" ng-class="{active:detail4Active}">
+                <div class="block-header">最新消息列表</div>
+                <div class="block-body">
+                    <div class="scroller title-scroller">
+                        <div class="block-news-list" ng-click="showNews(news)" ng-repeat="news in newsList | filter:search">
+                            <div class="block-title-list">{{news.title}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 詳細block5 -->
+            <div class="block-detail" id="block-detail-5" ng-class="{active:detail5Active}">
+                <div class="prev"></div>
+                <div class="next"></div>
+                <div class="block-header">
+                    <input type="text" class="input-title" placeholder="新增最新消息標題" ng-model="editTitle">
+                    <span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span>
+                </div>
+                <div class="block-body">
+                    <div class="detail-edit">
+                        <div class="scroller edit-scroller text-center">
+                            <textarea type="text" class="form-control" id="edit-area" placeholder="{{editHolder}}" ng-model="editContent"></textarea>
+                            <button class="btn btn-danger btn-lg btn-gap" ng-click="deleteNews()">刪除</button>
+                            <button class="btn btn-flat btn-lg" ng-click="submitNews()">修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-bar" ng-class="{active:detail5Active}">
+                <div class="bar-create">
+                    <span ng-click="createNews()"><i class="fa fa-plus fa-lg"></i></span>
+                </div>
+                <div class="bar-search">
+                    <i class="fa fa-search inline-search"></i>
+                    <input type="text" class="input-search" ng-model="search.title">
+                </div>
+            </div>
+            <div class="detail-list" ng-class="{active:detail5Active}">
+                <div class="block-header">最新消息列表</div>
+                <div class="block-body">
+                    <div class="scroller title-scroller">
+                        <div class="block-title-list" ng-click="editNews(news)" ng-repeat="news in newsList | filter:search">
+                            <div class="block-title-edit">{{news.title}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 詳細block6 -->
+            <div class="block-detail" id="block-detail-6" ng-class="{active:detail6Active}">
+                <div class="prev"></div>
+                <div class="next"></div>
+                <div class="block-header">
+                    <sapn class="title">{{message.title}}</sapn><span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span>
+                </div>
+                <div class="block-body">
+                    <div class="detail-content">
+                        <div class="detail-message" ng-if="!isMessageShow">
+                            <p>{{message.placeholder}}</p>
+                        </div>
+                        <div class="scroller message-scroller" ng-if="isMessageShow">
+                            <div class="detail-message">
+                                <div class="message-info">
+                                    <img ng-src="{{message.photo}}" class="message-photo">
+                                    <p class="message-author">{{message.author}}</p>
+                                    <p class="message-title">{{message.title}}</p>
+                                    <p class="message-time">{{message.time|date:'yyyy-MM-dd'}}</p>
+                                </div>
+                                <div class="message-content">
+                                    <p ng-bind-html="message.content"></p>
+                                </div>
+                                <div class="message-bar">
+                                    @*<button class="btn btn-flat" ng-click="editMessage(message)">修改留言</button>
+                                    <button class="btn btn-flat">刪除留言</button>*@
+                                </div>
+                            </div>
+                            <div class="detail-reply">
+                                <div ng-repeat="reply in replyList">
+                                    <div class="reply-info">
+                                        <img ng-src="{{reply.photo}}" class="reply-photo">
+                                        <p class="reply-author">{{reply.author}}</p>
+                                        <p class="reply-time">{{reply.time|date:'yyyy-MM-dd'}}</p>                              
+                                    </div>
+                                    <div class="reply-content">
+                                        <p ng-bind-html="trustHtml(reply.content)"></p>
+                                    </div>
+                                    <div class="message-bar">
+                                        <button class="btn btn-danger" ng-click="deleteReply(reply)" ng-if="isSame(reply)">刪除</button>
+                                    </div>
+                                </div>
+                                <div class="detail-reply" ng-if="isLogin">
+                                    <img ng-src="{{userPhoto}}" class="reply-photo">
+                                    <p class="reply-author">{{userName}}</p>
+                                    <input type="text" placeholder="留言" ng-model="create.replys" class="form-control reply-input">
+                                    <button class="btn btn-flat" ng-click="createReply(message)">送出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-bar" ng-class="{active:detail6Active}">
+                <div class="bar-search-2">
+                    <i class="fa fa-search inline-search"></i>
+                    <input type="text" class="input-search" ng-model="search.title">
+                </div>
+            </div>
+            <div class="detail-list" ng-class="{active:detail6Active}">
+                <div class="block-header">肌友交流列表</div>
+                <div class="block-body">
+                    <div class="scroller title-scroller">
+                        <div class="block-title-list" ng-click="showMessage(message)" ng-repeat="message in messageList | filter:search">
+                            <div class="block-title">{{message.title}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <script src="~/Scripts/jquery-2.2.1.min.js"></script>
+        <script src="~/Scripts/angular.min.js"></script>
+        <script src="~/Scripts/angular-animate.min.js"></script>
+        <script src="~/Scripts/angular-touch.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+        <script src="~/Scripts/bootstrap-datepicker.zh-TW.min.js"></script>
+        <script src="~/Scripts/highcharts.js"></script>
+        <script src="~/Scripts/highcharts-more.js"></script>
+        <script src="~/Scripts/dark-unica.js"></script>
+        <script src="~/Scripts/main.js"></script>
+        <script src="~/Scripts/chart.js"></script>   
+        <script>
+        window.account = "@HttpContext.Current.User.Identity.Name";
+        </script>
+</body>
+
+</html>

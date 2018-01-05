@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/screen.css")
+    @Styles.Render("~/Content/main.css")
+    @Scripts.Render("~/Scripts/jquery-1.10.2.min.js")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <!-- 登入 -->
+    <div class="block-login-back" ng-controller="loginController" when-transition-end="setIndexCharts($event)" ng-class="{success:loginSuccess}" ng-hide="hideLogin">
+        <div class="block-login-front">
+            <div class="block-login-photo"><img src="images/profile.jpg" class="login-photo"></div>
+            <div class="block-login-input form-group text-center">
+                <input type="text" id="input-account" class="form-control" placeholder="Account" ng-model="loginAccount">
+                <input type="text" id="input-password" class="form-control" placeholder="Password" ng-model="loginPassword">
+                <button type="button" class="btn btn-normal" id="btn-login" ng-click="login()">登入</button>
+                <button type="button" class="btn btn-normal" id="btn-register">註冊</button>
+            </div>
+        </div>
+    </div>
+    <div class="container" ng-controller="blockController">
+        <div class="row" ng-class="{filter:!loginSuccess}">
+            <!-- 主頁面 -->
+            <div class="col-md-3 col-xs-6 block-outer block-outer-2">
+                <!-- 會員 -->
+                <div ng-class="{gotop:isDetailActive,ontop:isOntop}" when-transition-end="setOntop()" class="block-inner block-inner-2 block-inner-top" id="block-user">
+                    <div class="block-header">會員</div>
+                    <div class="block-body" ng-show="loginSuccess">
+                        <div class="block-user-photo">
+                            <img class="user-photo" ng-src="{{userPhoto}}">
+                        </div>
+                        <div class="block-user-info">
+                            <div class="user-name">
+                                <p>{{userName}}</p>
+                            </div>
+                            <div class="user-group">
+                                <ul class="user-nav">
+                                    <li data-id="#tab1">
+                                        <span ng-click="showDetail3('user')"><i class="fa fa-user fa-lg icon-user"></i><span>
+                                    </li>
+                                    <li>
+                                        <span ng-click="showDetail3('cog')"><i class="fa fa-cog fa-lg icon-cog"></i><span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="block-user-rank">
+                                <p>
+                                    排名 3</i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 成就 -->
+                <div ng-class="{gotop:isDetailActive,ontop:isOntop}" when-transition-end="setOntop()" class="block-inner block-inner-2 block-inner-bottom" id="block-rank">
+                    <div class="block-header">成就</div>
+                    <div class="block-body" ng-show="loginSuccess">
+                        <div class="rank-info">0 / 99</div>
+                        <div class="rank-detail">
+                            <a href="#"><i class="fa fa-list fa-lg icon-rank"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-6 block-outer block-outer-1">
+                <!-- 課程行事曆&完成率 -->
+                <div ng-class="{gotop:isDetailActive,ontop:isOntop}" when-transition-end="setOntop()" class="block-inner block-inner-1" id="block-course">
+                    <div class="block-header">課程行事曆</div>
+                    <div class="block-body" ng-show="loginSuccess">
+                        <div class="scroller">
+                            <div class="block-course-list">
+                                <div class="block-course-thumb"><img src="images/dumbbell.png" class="course-thumb"></div>
+                                <div class="block-course-title">啞鈴集中彎舉</div>
+                                <div class="block-course-time">3/9 星期三</div>
+                            </div>
+                            <div class="block-course-list">
+                                <div class="block-course-thumb"><img src="images/dumbbell-c.png" class="course-thumb"></div>
+                                <div class="block-course-title">啞鈴斜板彎舉</div>
+                                <div class="block-course-time">3/11 星期五</div>
+                            </div>
+                            <div class="block-course-list">
+                                <div class="block-course-thumb"><img src="images/chin-up.png" class="course-thumb"></div>
+                                <div class="block-course-title">引體向上</div>
+                                <div class="block-course-time">3/13 星期日</div>
+                            </div>
+                            <div class="block-course-list">
+                                <div class="block-course-thumb"><img src="images/dumbbell.png" class="course-thumb"></div>
+                                <div class="block-course-title">啞鈴斜板彎舉</div>
+                                <div class="block-course-time">3/15 星期二</div>
+                            </div>
+                            <div class="block-course-list">
+                                <div class="block-course-thumb"><img src="images/dumbbell-c.png" class="course-thumb"></div>
+                                <div class="block-course-title">啞鈴集中彎舉</div>
+                                <div class="block-course-time">3/17 星期四</div>
+                            </div>
+                            <div class="block-course-list">
+                                <div class="block-course-thumb"><img src="images/chin-up.png" class="course-thumb"></div>
+                                <div class="block-course-title">引體向上</div>
+                                <div class="block-course-time">3/19 星期六</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12 block-outer block-outer-3">
+                <!-- 訓練成效 -->
+                <div ng-class="{gotop:isDetailActive,ontop:isOntop}" when-transition-end="setOntop()" class="block-inner block-inner-3" id="block-training" ng-click="showDetail1('training')">
+                    <div class="block-header">訓練成效</div>
+                    <div class="block-body" ng-show="loginSuccess">
+                        <div class="block-thumb hasDetail" id="block-trainingThumb"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12 block-outer block-outer-3">
+                <!-- 肌肉成長 -->
+                <div ng-class="{gotop:isDetailActive,ontop:isOntop}" when-transition-end="setOntop()" class="block-inner block-inner-3" id="block-grow" data-title="肌肉成長詳細紀錄" data-mainchartname="1rm" data-leftchartname="15rm" data-rightchartname="growWays" data-showtabs="true" data-detail="1" ng-click="showDetail1('grow')">
+                    <div class="block-header">肌肉成長</div>
+                    <div class="block-body" ng-show="loginSuccess">
+                        <div class="block-thumb hasDetail" id="block-growThumb"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-6 block-outer block-outer-1">
+                <!-- 個人素質 -->
+                <div ng-class="{gotop:isDetailActive,ontop:isOntop}" when-transition-end="setOntop()" class="block-inner block-inner-1" id="block-status">
+                    <div class="block-header">個人素質</div>
+                    <div class="block-body" ng-show="loginSuccess">
+                        <div id="block-chart-status"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-6 block-outer block-outer-1">
+                <!-- 體脂 -->
+                <div ng-class="{gotop:isDetailActive,ontop:isOntop}" when-transition-end="setOntop()" class="block-inner block-inner-1" id="block-bodyfat" data-title="體脂率 - 週紀錄" data-mainchartname="bodyfat" data-leftchartname="bodyfatGrow" data-rightchartname="bodyfatWays" data-detail="2">
+                    <div class="block-header">體脂</div>
+                    <div class="block-body" ng-show="loginSuccess">
+                        <div class="block-thumb hasDetail" id="block-bodyfatThumb"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-6 block-outer block-outer-3">
+                <!-- 資料分析 -->
+                <div ng-class="{gotop:isDetailActive,ontop:isOntop}" when-transition-end="setOntop()" class="block-inner block-inner-3" id="block-dotchart">
+                    <div class="block-header">資料分析</div>
+                    <div class="block-body" ng-show="loginSuccess">
+                        <div class="block-thumb" id="block-dotThumb"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-6 block-outer block-outer-1">
+                <!--  -->
+                <div ng-class="{gotop:isDetailActive,ontop:isOntop}" when-transition-end="setOntop()" class="block-inner block-inner-1">
+                    <div class="block-header"></div>
+                    <div class="block-body" ng-show="loginSuccess">
+                        <div class="block-thumb" id="block-resultThumb"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-6 block-outer block-outer-1">
+                <!--  -->
+                <div ng-class="{gotop:isDetailActive,ontop:isOntop}" when-transition-end="setOntop()" class="block-inner block-inner-1">
+                    <div class="block-header"></div>
+                    <div class="block-body" ng-show="loginSuccess"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="block-detail" id="block-detail-1" ng-class="{active:detail1Active}">
+            <div class="prev"></div>
+            <div class="next"></div>
+            <div class="block-header">
+                <sapn class="title">{{detail1Options.title}}</sapn><span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span>
+            </div>
+            <div class="block-body" ng-show="loginSuccess">
+                <div id="detail1-main-chart"></div>
+                <div id="detail1-right-tabs">
+                    <!--
+                        <button type="button" class="btn btn-primary btn-xAxis" data-xaxis="all">總覽</button>
+                        <button type="button" class="btn btn-primary btn-xAxis" data-xaxis="week">週紀錄</button>
+                        <button type="button" class="btn btn-primary btn-xAxis" data-xaxis="month">月紀錄</button>
+                        <button type="button" class="btn btn-primary btn-xAxis" data-xaxis="season">季紀錄</button>
+                    -->
+                    <button type="button" class="btn btn-primary btn-type" data-type="kg" ng-click="switchType('kg')">公斤</button>
+                    <button type="button" class="btn btn-primary btn-type" data-type="precent" ng-click="switchType(precent)">百分比</button>
+                </div>
+                <div id="detail1-left-chart"></div>
+                <div id="detail1-right-chart"></div>
+            </div>
+        </div>
+        <div class="block-detail" id="block-detail-2" ng-class="{active:detail2Active}">
+            <div class="prev"></div>
+            <div class="next"></div>
+            <div class="block-header">
+                <sapn class="title">{{detail2Options.title}}</sapn><span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span>
+            </div>
+            <div class="block-body" ng-show="loginSuccess">
+                <div id="detail2-topleft-chart"></div>
+                <div id="detail2-topright-chart"></div>
+                <div id="detail2-bottomleft-chart"></div>
+                <div id="detail2-bottomright-chart"></div>
+            </div>
+        </div>
+        <div class="block-detail" id="block-detail-3" ng-class="{active:detail3Active}">
+            <div class="prev"></div>
+            <div class="next"></div>
+            <div class="block-header">
+                <sapn class="title">{{detail3Options.title}}</sapn><span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span>
+            </div>
+            <div class="block-body" ng-show="loginSuccess">
+                <iframe ng-src="{{detail3Options.src}}" frameborder="0" id="detail3-main-iframe"></iframe>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="Scripts/jquery-2.2.1.min.js"></script>
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/highcharts.js"></script>
+    <script src="Scripts/highcharts-more.js"></script>
+    <script src="Scripts/dark-unica.js"></script>
+    <script src="Scripts/mainA.js"></script>
+    <script src="Scripts/chart.js"></script>
+</body>
+</html>

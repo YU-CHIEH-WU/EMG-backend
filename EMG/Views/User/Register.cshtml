@@ -1,0 +1,369 @@
+﻿@model EMG.Model.RegisterView
+@{
+    ViewBag.Title = "註冊會員";
+    Layout = null;
+}
+
+<style type="text/css">
+    #leftside {
+        position: fixed;
+    }
+
+    #rightside {
+        top:-200px;
+        left: 300px;
+        position: relative;
+    }
+
+    #center {
+        left: 1400px;
+        top: 700px;
+        position: fixed;
+    }
+</style>
+
+<h2>Register</h2>
+
+<div id="FileUpload">
+    @using (Ajax.BeginForm("Register", "User", new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "status",
+        InsertionMode = InsertionMode.Replace
+    }, new { enctype = "multipart/form-data" }))
+    {
+        @*@Html.AntiForgeryToken()*@
+    using (Html.BeginForm())
+    {
+            @*@Html.AntiForgeryToken()*@
+            <div>
+                @Html.DisplayNameFor(model => model.Img)
+                <input type="file" name="file" id="img">
+                @Html.ValidationMessageFor(model => model.Img, "", new { @class = "text-danger" })
+            </div>
+                <img id="output" style="width:126px; height:146px; border:dashed"/>
+            <div id="leftside">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger", type = "text" })
+                <div>
+                    @Html.DisplayNameFor(model => model.Account)
+                    <div>
+                        @Html.TextBoxFor(model => model.Account)
+                        @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(model => model.Password)
+                    <div>
+                        @Html.PasswordFor(model => model.Password)
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(model => model.Name)
+                    <div>
+                        @Html.TextBoxFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(model => model.Sex)
+                    <div>
+                        @Html.DropDownListFor(model => model.Sex, (IEnumerable<SelectListItem>)ViewBag.SexList)
+                        @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(model => model.Birth)
+                    <div>
+                        @Html.TextBoxFor(model => model.Birth, new { @class = "datepicker" })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(model => model.Blood)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Blood, "A")<text>A</text>
+                        @Html.RadioButtonFor(model => model.Blood, "B")<text>B</text>
+                        @Html.RadioButtonFor(model => model.Blood, "O")<text>O</text>
+                        @Html.RadioButtonFor(model => model.Blood, "AB")<text>AB</text>
+                        @Html.ValidationMessageFor(model => model.Blood, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(model => model.Height)
+                    <div>
+                        @Html.TextBoxFor(model => model.Height)
+                        @Html.ValidationMessageFor(model => model.Height, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(model => model.Weight)
+                    <div>
+                        @Html.TextBoxFor(model => model.Weight)
+                        @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(model => model.Disease)
+                    <div>
+                        @Html.TextAreaFor(model => model.Disease)
+                        @Html.ValidationMessageFor(model => model.Disease, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(model => model.Email)
+                    <div>
+                        @Html.TextBoxFor(model => model.Email)
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(model => model.Phone)
+                    <div>
+                        @Html.TextBoxFor(model => model.Phone)
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <div>
+                        <input type="submit" value="註冊" id="Register"><br>        
+                    </div>
+                </div>
+            </div>
+
+            <div id="rightside">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger", type = "text" })
+                <div>
+                    @Html.DisplayNameFor(model => model.Control)
+                    <div>                       
+                        @Html.RadioButtonFor(model => model.Control, "有, 控制飲食習慣")<text>有, 控制飲食習慣</text>
+                        @Html.RadioButtonFor(model => model.Control, "稍微有控制")<text>稍微有控制</text>
+                        @Html.RadioButtonFor(model => model.Control, "沒有, 控制飲食習慣")<text>沒有, 控制飲食習慣</text>
+                        <input type="radio" /><text>其他：</text>@Html.TextBoxFor(model => model.Control)
+                        @Html.ValidationMessageFor(model => model.Control, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Fruit)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Fruit, "溫帶水果(蘋果、杏子、櫻桃、桃子、李子及梨子等)")<text>溫帶水果(蘋果、杏子、櫻桃、桃子、李子及梨子等)</text>
+                        @Html.RadioButtonFor(model => model.Fruit, "亞熱帶水果(柚子、檸檬、柑橘、無花果、石榴、酪梨等)")<text>亞熱帶水果(柚子、檸檬、柑橘、無花果、石榴、酪梨等)</text>
+                        @Html.RadioButtonFor(model => model.Fruit, "熱帶水果(荔枝、木瓜、鳳梨等)")<text>熱帶水果(荔枝、木瓜、鳳梨等)</text>
+                        <input type="radio" /><text>其他：</text>@Html.TextBoxFor(model => model.Fruit)
+                        @Html.ValidationMessageFor(model => model.Fruit, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Ability)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Ability, "很不好")<text>很不好<text>
+                        @Html.RadioButtonFor(model => model.Ability, "不好")<text>不好</text>
+                        @Html.RadioButtonFor(model => model.Ability, "普通")<text>普通</text>
+                        @Html.RadioButtonFor(model => model.Ability, "好")<text>好<text>
+                        @Html.RadioButtonFor(model => model.Ability, "很好")<text>很好</text>
+                        @Html.ValidationMessageFor(model => model.Ability, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Ontime)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Ontime, "是")<text>是</text>
+                        @Html.RadioButtonFor(model => model.Ontime, "否")<text>否</text>
+                        @Html.ValidationMessageFor(model => model.Ontime, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Fry)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Fry, "不吃或每週少於1份")<text>不吃或每週少於1份</text>
+                        @Html.RadioButtonFor(model => model.Fry, "每週吃1-3份")<text>每週吃1-3份</text>
+                        @Html.RadioButtonFor(model => model.Fry, "每週吃4-6份")<text>每週吃4-6份</text>
+                        @Html.RadioButtonFor(model => model.Fry, "每天吃1份")<text>每天吃1份</text>
+                        @Html.RadioButtonFor(model => model.Fry, "每天吃2份或以上")<text>每天吃2份或以上</text>
+                        @Html.ValidationMessageFor(model => model.Fry, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Drink)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Drink, "不喝或每週少於1杯")<text>不喝或每週少於1杯</text>
+                        @Html.RadioButtonFor(model => model.Drink, "每週喝1-3杯")<text>每週喝1-3杯</text>
+                        @Html.RadioButtonFor(model => model.Drink, "每週喝4-6杯")<text>每週喝4-6杯</text>
+                        @Html.RadioButtonFor(model => model.Drink, "每天喝1杯")<text>每天喝1杯</text>
+                        @Html.RadioButtonFor(model => model.Drink, "每天喝2杯或以上")<text>每天喝2杯或以上</text>
+                        @Html.ValidationMessageFor(model => model.Drink, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Quality)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Quality, "非常好")<text>非常好</text>
+                        @Html.RadioButtonFor(model => model.Quality, "好")<text>好</text>
+                        @Html.RadioButtonFor(model => model.Quality, "普通")<text>普通</text>
+                        @Html.RadioButtonFor(model => model.Quality, "不好")<text>不好</text>
+                        @Html.RadioButtonFor(model => model.Quality, "非常不好")<text>非常不好</text>
+                        @Html.ValidationMessageFor(model => model.Quality, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Sportnum)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Sportnum, "0次")<text>0次</text>
+                        @Html.RadioButtonFor(model => model.Sportnum, "1次")<text>1次</text>
+                        @Html.RadioButtonFor(model => model.Sportnum, "2次")<text>2次</text>
+                        @Html.RadioButtonFor(model => model.Sportnum, "3次以上")<text>3次以上</text>
+                        @Html.ValidationMessageFor(model => model.Sportnum, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Sporttime)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Sporttime, "30分鐘以下")<text>30分鐘以下</text>
+                        @Html.RadioButtonFor(model => model.Sporttime, "30~60分鐘")<text>30~60分鐘</text>
+                        @Html.RadioButtonFor(model => model.Sporttime, "60~120分鐘")<text>60~120分鐘</text>
+                        @Html.RadioButtonFor(model => model.Sporttime, "120分鐘以上")<text>120分鐘以上</text>
+                        @Html.ValidationMessageFor(model => model.Sporttime, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Sports)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Sports, "籃球")<text>籃球</text>
+                        @Html.RadioButtonFor(model => model.Sports, "排球")<text>排球</text>
+                        @Html.RadioButtonFor(model => model.Sports, "棒球")<text>棒球</text>
+                        @Html.RadioButtonFor(model => model.Sports, "羽球")<text>羽球</text>
+                        @Html.RadioButtonFor(model => model.Sports, "桌球")<text>桌球</text>
+                        @Html.RadioButtonFor(model => model.Sports, "短跑")<text>短跑</text>
+                        @Html.RadioButtonFor(model => model.Sports, "長跑")<text>長跑</text>
+                        @Html.RadioButtonFor(model => model.Sports, "拳擊")<text>拳擊</text>
+                        <input type="radio" /><text>其他：</text>@Html.TextBoxFor(model => model.Sports)
+                        @Html.ValidationMessageFor(model => model.Sports, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Motivation)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Motivation, "讓自己的身體保持健康")<text>讓自己的身體保持健康</text>
+                        @Html.RadioButtonFor(model => model.Motivation, "讓自己的體態變得更好看")<text>讓自己的體態變得更好看</text>
+                        @Html.RadioButtonFor(model => model.Motivation, "增加肌肉強度達到最高境界")<text>增加肌肉強度達到最高境界</text>
+                        <input type="radio" /><text>其他：</text>@Html.TextBoxFor(model => model.Motivation)
+                        @Html.ValidationMessageFor(model => model.Motivation, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Grade)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Grade, "初學")<text>初學</text>
+                        @Html.RadioButtonFor(model => model.Grade, "中階")<text>中階</text>
+                        @Html.RadioButtonFor(model => model.Grade, "進階")<text>進階</text>
+                        @Html.ValidationMessageFor(model => model.Grade, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Place)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Place, "均衡發展")<text>均衡發展</text>
+                        @Html.RadioButtonFor(model => model.Place, "腿部")<text>腿部</text>
+                        @Html.RadioButtonFor(model => model.Place, "胸部")<text>胸部</text>
+                        @Html.RadioButtonFor(model => model.Place, "背部")<text>背部</text>
+                        @Html.RadioButtonFor(model => model.Place, "腹部")<text>腹部</text>
+                        @Html.RadioButtonFor(model => model.Place, "肩部")<text>肩部</text>
+                        @Html.RadioButtonFor(model => model.Place, "肱二頭肌")<text>肱二頭肌</text>
+                        @Html.RadioButtonFor(model => model.Place, "肱二頭肌")<text>肱二頭肌</text>
+                        @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Look)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Look, "腿部")<text>腿部</text>
+                        @Html.RadioButtonFor(model => model.Look, "胸部")<text>胸部</text>
+                        @Html.RadioButtonFor(model => model.Look, "背部")<text>背部</text>
+                        @Html.RadioButtonFor(model => model.Look, "腹部")<text>腹部</text>
+                        @Html.RadioButtonFor(model => model.Look, "肩部")<text>肩部</text>
+                        @Html.RadioButtonFor(model => model.Look, "肱二頭肌")<text>肱二頭肌</text>
+                        @Html.RadioButtonFor(model => model.Look, "肱二頭肌")<text>肱二頭肌</text>
+                        @Html.ValidationMessageFor(model => model.Look, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Want)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Want, "朋友陪同")<text>朋友陪同</text>
+                        @Html.RadioButtonFor(model => model.Want, "維持身體健康")<text>維持身體健康</text>
+                        @Html.RadioButtonFor(model => model.Want, "舉辦健身比賽")<text>舉辦健身比賽</text>
+                        @Html.RadioButtonFor(model => model.Want, "運動明星共同參與")<text>運動明星共同參與</text>
+                        <input type="radio" /><text>其他：</text>@Html.TextBoxFor(model => model.Want)
+                        @Html.ValidationMessageFor(model => model.Want, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Request)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Request, "嚴格要求自己")<text>嚴格要求自己</text>
+                        @Html.RadioButtonFor(model => model.Request, "保持一定水準")<text>保持一定水準</text>
+                        @Html.RadioButtonFor(model => model.Request, "放鬆按部就班")<text>放鬆按部就班</text>
+                        @Html.RadioButtonFor(model => model.Request, "不與他人比較")<text>不與他人比較</text>
+                        <input type="radio" /><text>其他：</text>@Html.TextBoxFor(model => model.Request)
+                        @Html.ValidationMessageFor(model => model.Request, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.Increase)
+                    <div>
+                        @Html.RadioButtonFor(model => model.Increase, "是")<text>是</text>
+                        @Html.RadioButtonFor(model => model.Increase, "否")<text>否</text>
+                        @Html.ValidationMessageFor(model => model.Increase, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<link rel="stylesheet" href="~/Content/jquery-ui-1.10.3.custom.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="~/Scripts/Lib/jquery-1.9.1.js"></script>
+<script src="~/Scripts/Lib/jquery-ui-1.10.3.custom.js"></script>
+<script src="~/Scripts/JQueryDatePickerTW.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".datepicker").datepicker(
+        {
+            changeYear: true,
+            changeMonth: true,
+            dateFormat: 'yy-mm-dd',
+            yearRange: '1911:2020',
+            defaultDate: '1994-01-01'
+        });
+
+        $('#img').change(function (event) {
+            openFile(event);
+        });
+
+        var openFile = function (event) {
+            var input = event.target;
+
+            var reader = new FileReader();
+            reader.onload = function () {
+                var dataURL = reader.result;
+                var output = document.getElementById('output');
+                output.src = dataURL;
+            };
+            reader.readAsDataURL(input.files[0]);
+        };
+    });
+</script>

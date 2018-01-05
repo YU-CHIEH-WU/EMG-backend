@@ -1,0 +1,1778 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EMGDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account_Course">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="C_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="P_Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Part" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Series" Type="int" />
+          <Property Name="Times" Type="int" />
+          <Property Name="Power" Type="int" />
+          <Property Name="Complete" Type="bit" />
+        </EntityType>
+        <EntityType Name="ActImg">
+          <Key>
+            <PropertyRef Name="Sort" />
+          </Key>
+          <Property Name="Sort" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Img" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Brief" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="QuestionNo" />
+            <PropertyRef Name="TopicNo" />
+            <PropertyRef Name="Account" />
+          </Key>
+          <Property Name="QuestionNo" Type="int" Nullable="false" />
+          <Property Name="TopicNo" Type="int" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="SelectNo" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="Days" />
+          </Key>
+          <Property Name="C_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Days" Type="int" Nullable="false" />
+          <Property Name="Pos1" Type="nvarchar" MaxLength="30" />
+          <Property Name="Pos2" Type="nvarchar" MaxLength="30" />
+          <Property Name="Pos3" Type="nvarchar" MaxLength="30" />
+          <Property Name="Pos4" Type="nvarchar" MaxLength="30" />
+          <Property Name="Pos5" Type="nvarchar" MaxLength="30" />
+          <Property Name="Pos6" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Course_Tag">
+          <Key>
+            <PropertyRef Name="C_Id" />
+          </Key>
+          <Property Name="C_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CompleteTimes" Type="int" />
+          <Property Name="SumDays" Type="int" />
+          <Property Name="Part" Type="nvarchar" MaxLength="10" />
+          <Property Name="Goal" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="10" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Time" Type="datetime" />
+          <Property Name="Times" Type="int" />
+          <Property Name="Hard" Type="float" />
+          <Property Name="Sports" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="EMGData">
+          <Key>
+            <PropertyRef Name="E_Id" />
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Series" />
+            <PropertyRef Name="Times" />
+            <PropertyRef Name="Type" />
+          </Key>
+          <Property Name="E_Id" Type="int" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="C_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="P_Name" Type="nvarchar" MaxLength="20" />
+          <Property Name="Part" Type="nvarchar" MaxLength="10" />
+          <Property Name="Training" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Series" Type="int" Nullable="false" />
+          <Property Name="Times" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="EMG" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IEMG" Type="float" Nullable="false" />
+          <Property Name="RMS" Type="float" Nullable="false" />
+          <Property Name="PMVC" Type="float" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Edition" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Edition" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Size" Type="int" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="IsTrash" Type="bit" Nullable="false" />
+          <Property Name="IsLatest" Type="bit" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="IEMGData">
+          <Key>
+            <PropertyRef Name="I_Id" />
+          </Key>
+          <Property Name="I_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="C_Id" Type="nvarchar" MaxLength="20" />
+          <Property Name="Date" Type="date" />
+          <Property Name="P_Name" Type="nvarchar" MaxLength="20" />
+          <Property Name="Part" Type="nvarchar" MaxLength="10" />
+          <Property Name="Training" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Series" Type="int" Nullable="false" />
+          <Property Name="Times" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="IEMG" Type="float" Nullable="false" />
+          <Property Name="PMVC" Type="float" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Act_Id" />
+          </Key>
+          <Property Name="Act_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sort" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Img" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MId" />
+          </Key>
+          <Property Name="MId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Messages" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsEdit" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="N_Id" />
+          </Key>
+          <Property Name="N_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notice">
+          <Key>
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+          </Key>
+          <Property Name="Account" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="C_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Date" Type="date" />
+        </EntityType>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="P_Id" />
+          </Key>
+          <Property Name="P_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Img" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Posture">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Part" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="num" Type="int" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="Brief" Type="nvarchar(max)" />
+          <Property Name="Hard" Type="int" />
+          <Property Name="Device" Type="nvarchar" MaxLength="20" />
+          <Property Name="Iframe" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionNo" />
+          </Key>
+          <Property Name="QuestionNo" Type="int" Nullable="false" />
+          <Property Name="QuestionName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreateAccount" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Mark" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="RecordEffect">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="P_Name" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="C_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="P_Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Part" Type="nvarchar" MaxLength="10" />
+          <Property Name="Strength" Type="float" />
+          <Property Name="Endurance" Type="float" />
+          <Property Name="Effect" Type="float" />
+          <Property Name="Total" Type="float" />
+        </EntityType>
+        <EntityType Name="Reply">
+          <Key>
+            <PropertyRef Name="RId" />
+          </Key>
+          <Property Name="RId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MId" Type="int" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Replys" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReplyTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rest_Max">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="C_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="P_Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="restRMS" Type="float" Nullable="false" />
+          <Property Name="maxRMS" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RMSData">
+          <Key>
+            <PropertyRef Name="R_Id" />
+          </Key>
+          <Property Name="R_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="C_Id" Type="nvarchar" MaxLength="20" />
+          <Property Name="Date" Type="date" />
+          <Property Name="P_Name" Type="nvarchar" MaxLength="20" />
+          <Property Name="Part" Type="nvarchar" MaxLength="10" />
+          <Property Name="Training" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Series" Type="int" Nullable="false" />
+          <Property Name="Times" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="RMS" Type="float" Nullable="false" />
+          <Property Name="PMVC" Type="float" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Text">
+          <Key>
+            <PropertyRef Name="Title" />
+          </Key>
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contents" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="TopicNo" />
+          </Key>
+          <Property Name="TopicNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionNo" Type="int" Nullable="false" />
+          <Property Name="TopicTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TopicSelect">
+          <Key>
+            <PropertyRef Name="QuestionNo" />
+            <PropertyRef Name="TopicNo" />
+            <PropertyRef Name="SelectNo" />
+          </Key>
+          <Property Name="QuestionNo" Type="int" Nullable="false" />
+          <Property Name="TopicNo" Type="int" Nullable="false" />
+          <Property Name="SelectNo" Type="int" Nullable="false" />
+          <Property Name="SelectName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Account" />
+          </Key>
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Birth" Type="date" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="Blood" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Height" Type="float" Nullable="false" />
+          <Property Name="Weight" Type="float" Nullable="false" />
+          <Property Name="Bodyfat" Type="float" Nullable="false" />
+          <Property Name="BMR" Type="float" Nullable="false" />
+          <Property Name="Disease" Type="nvarchar(max)" />
+          <Property Name="Email" Type="varchar(max)" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="Url" Type="nvarchar(max)" />
+          <Property Name="Type" Type="varchar" MaxLength="20" />
+          <Property Name="Size" Type="int" />
+          <Property Name="Balance" Type="float" Nullable="false" />
+          <Property Name="Strength" Type="float" Nullable="false" />
+          <Property Name="Endurance" Type="float" Nullable="false" />
+          <Property Name="Effect" Type="float" Nullable="false" />
+          <Property Name="Bodyrate" Type="float" Nullable="false" />
+          <Property Name="Burden" Type="float" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserHabit">
+          <Key>
+            <PropertyRef Name="Account" />
+          </Key>
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Control" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fruit" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ability" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ontime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fry" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Drink" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quality" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sportnum" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sporttime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sports" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Motivation" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Grade" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Place" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Look" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Want" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Request" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Increase" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserStatus">
+          <Key>
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="C_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar(max)" />
+          <Property Name="Height" Type="float" Nullable="false" />
+          <Property Name="Weight" Type="float" Nullable="false" />
+          <Property Name="Bodyfat" Type="float" Nullable="false" />
+          <Property Name="BMR" Type="float" Nullable="false" />
+          <Property Name="Balance" Type="float" Nullable="false" />
+          <Property Name="Strength" Type="float" Nullable="false" />
+          <Property Name="Endurance" Type="float" Nullable="false" />
+          <Property Name="Effect" Type="float" Nullable="false" />
+          <Property Name="Bodyrate" Type="float" Nullable="false" />
+          <Property Name="Burden" Type="float" Nullable="false" />
+          <Property Name="Rank" Type="float" />
+        </EntityType>
+        <EntityType Name="Usertest">
+          <Key>
+            <PropertyRef Name="Account" />
+          </Key>
+          <Property Name="Account" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Birth" Type="date" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="Blood" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Height" Type="float" Nullable="false" />
+          <Property Name="Weight" Type="float" Nullable="false" />
+          <Property Name="Bodyfat" Type="float" Nullable="false" />
+          <Property Name="BMR" Type="float" Nullable="false" />
+          <Property Name="Disease" Type="nvarchar(max)" />
+          <Property Name="History" Type="nvarchar(max)" />
+          <Property Name="Email" Type="varchar(max)" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="Job" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sportnum" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sporttime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sports" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Warmup" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Interest" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Place" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Motivation" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Purpose" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Want" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Request" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quality" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Hobby" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fry" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Drink" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ontime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Increase" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ActImg_ActImg">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ActImg" Type="Self.ActImg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="ActImg">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_Answer">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="1" />
+          <End Role="Answer1" Type="Self.Answer" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="QuestionNo" />
+              <PropertyRef Name="TopicNo" />
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="Answer1">
+              <PropertyRef Name="QuestionNo" />
+              <PropertyRef Name="TopicNo" />
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionNo" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="QuestionNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_Topic">
+          <End Role="Topic" Type="Self.Topic" Multiplicity="1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="TopicNo" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="TopicNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Answer" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IEMGData_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="IEMGData" Type="Self.IEMGData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="IEMGData">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Image_ActImg">
+          <End Role="ActImg" Type="Self.ActImg" Multiplicity="1" />
+          <End Role="Image" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActImg">
+              <PropertyRef Name="Sort" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="Sort" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="CreateAccount" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reply_Message">
+          <End Role="Message" Type="Self.Message" Multiplicity="1" />
+          <End Role="Reply" Type="Self.Reply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="MId" />
+            </Principal>
+            <Dependent Role="Reply">
+              <PropertyRef Name="MId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RMSData_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="RMSData" Type="Self.RMSData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="RMSData">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionNo" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="QuestionNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TopicSelect_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="TopicSelect" Type="Self.TopicSelect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionNo" />
+            </Principal>
+            <Dependent Role="TopicSelect">
+              <PropertyRef Name="QuestionNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TopicSelect_Topic">
+          <End Role="Topic" Type="Self.Topic" Multiplicity="1" />
+          <End Role="TopicSelect" Type="Self.TopicSelect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="TopicNo" />
+            </Principal>
+            <Dependent Role="TopicSelect">
+              <PropertyRef Name="TopicNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EMGDataBaseModelStoreContainer">
+          <EntitySet Name="Account_Course" EntityType="Self.Account_Course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ActImg" EntityType="Self.ActImg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Course_Tag" EntityType="Self.Course_Tag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EMGData" EntityType="Self.EMGData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IEMGData" EntityType="Self.IEMGData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notice" EntityType="Self.Notice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Posture" EntityType="Self.Posture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecordEffect" EntityType="Self.RecordEffect" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reply" EntityType="Self.Reply" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rest_Max" EntityType="Self.Rest_Max" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RMSData" EntityType="Self.RMSData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Text" EntityType="Self.Text" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Topic" EntityType="Self.Topic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TopicSelect" EntityType="Self.TopicSelect" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserHabit" EntityType="Self.UserHabit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserStatus" EntityType="Self.UserStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usertest" EntityType="Self.Usertest" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ActImg_ActImg" Association="Self.FK_ActImg_ActImg">
+            <End Role="User" EntitySet="User" />
+            <End Role="ActImg" EntitySet="ActImg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_Answer" Association="Self.FK_Answer_Answer">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="Answer1" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_Question" Association="Self.FK_Answer_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_Topic" Association="Self.FK_Answer_Topic">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_User" Association="Self.FK_Answer_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IEMGData_User" Association="Self.FK_IEMGData_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="IEMGData" EntitySet="IEMGData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Image_ActImg" Association="Self.FK_Image_ActImg">
+            <End Role="ActImg" EntitySet="ActImg" />
+            <End Role="Image" EntitySet="Image" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_User" Association="Self.FK_Question_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reply_Message" Association="Self.FK_Reply_Message">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Reply" EntitySet="Reply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RMSData_User" Association="Self.FK_RMSData_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="RMSData" EntitySet="RMSData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_Question" Association="Self.FK_Topic_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Topic" EntitySet="Topic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TopicSelect_Question" Association="Self.FK_TopicSelect_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="TopicSelect" EntitySet="TopicSelect" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TopicSelect_Topic" Association="Self.FK_TopicSelect_Topic">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="TopicSelect" EntitySet="TopicSelect" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EMGDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EMGDataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Account_Course" EntityType="EMGDataBaseModel.Account_Course" />
+          <EntitySet Name="ActImg" EntityType="EMGDataBaseModel.ActImg" />
+          <EntitySet Name="Answer" EntityType="EMGDataBaseModel.Answer" />
+          <EntitySet Name="Course" EntityType="EMGDataBaseModel.Course" />
+          <EntitySet Name="Course_Tag" EntityType="EMGDataBaseModel.Course_Tag" />
+          <EntitySet Name="EMGData" EntityType="EMGDataBaseModel.EMGData" />
+          <EntitySet Name="File" EntityType="EMGDataBaseModel.File" />
+          <EntitySet Name="IEMGData" EntityType="EMGDataBaseModel.IEMGData" />
+          <EntitySet Name="Image" EntityType="EMGDataBaseModel.Image" />
+          <EntitySet Name="Message" EntityType="EMGDataBaseModel.Message" />
+          <EntitySet Name="News" EntityType="EMGDataBaseModel.News" />
+          <EntitySet Name="Notice" EntityType="EMGDataBaseModel.Notice" />
+          <EntitySet Name="Photo" EntityType="EMGDataBaseModel.Photo" />
+          <EntitySet Name="Posture" EntityType="EMGDataBaseModel.Posture" />
+          <EntitySet Name="Question" EntityType="EMGDataBaseModel.Question" />
+          <EntitySet Name="RecordEffect" EntityType="EMGDataBaseModel.RecordEffect" />
+          <EntitySet Name="Reply" EntityType="EMGDataBaseModel.Reply" />
+          <EntitySet Name="Rest_Max" EntityType="EMGDataBaseModel.Rest_Max" />
+          <EntitySet Name="RMSData" EntityType="EMGDataBaseModel.RMSData" />
+          <EntitySet Name="Text" EntityType="EMGDataBaseModel.Text" />
+          <EntitySet Name="Topic" EntityType="EMGDataBaseModel.Topic" />
+          <EntitySet Name="TopicSelect" EntityType="EMGDataBaseModel.TopicSelect" />
+          <EntitySet Name="User" EntityType="EMGDataBaseModel.User" />
+          <EntitySet Name="UserHabit" EntityType="EMGDataBaseModel.UserHabit" />
+          <EntitySet Name="UserStatus" EntityType="EMGDataBaseModel.UserStatus" />
+          <EntitySet Name="Usertest" EntityType="EMGDataBaseModel.Usertest" />
+          <AssociationSet Name="FK_ActImg_ActImg" Association="EMGDataBaseModel.FK_ActImg_ActImg">
+            <End Role="User" EntitySet="User" />
+            <End Role="ActImg" EntitySet="ActImg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Image_ActImg" Association="EMGDataBaseModel.FK_Image_ActImg">
+            <End Role="ActImg" EntitySet="ActImg" />
+            <End Role="Image" EntitySet="Image" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_Answer" Association="EMGDataBaseModel.FK_Answer_Answer">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="Answer1" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_Question" Association="EMGDataBaseModel.FK_Answer_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_Topic" Association="EMGDataBaseModel.FK_Answer_Topic">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Answer_User" Association="EMGDataBaseModel.FK_Answer_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Answer" EntitySet="Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IEMGData_User" Association="EMGDataBaseModel.FK_IEMGData_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="IEMGData" EntitySet="IEMGData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reply_Message" Association="EMGDataBaseModel.FK_Reply_Message">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Reply" EntitySet="Reply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_User" Association="EMGDataBaseModel.FK_Question_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_Question" Association="EMGDataBaseModel.FK_Topic_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Topic" EntitySet="Topic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TopicSelect_Question" Association="EMGDataBaseModel.FK_TopicSelect_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="TopicSelect" EntitySet="TopicSelect" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RMSData_User" Association="EMGDataBaseModel.FK_RMSData_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="RMSData" EntitySet="RMSData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TopicSelect_Topic" Association="EMGDataBaseModel.FK_TopicSelect_Topic">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="TopicSelect" EntitySet="TopicSelect" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Account_Course">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="C_Id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="P_Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Part" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Series" Type="Int32" />
+          <Property Name="Times" Type="Int32" />
+          <Property Name="Power" Type="Int32" />
+          <Property Name="Complete" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="ActImg">
+          <Key>
+            <PropertyRef Name="Sort" />
+          </Key>
+          <Property Name="Sort" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Img" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Brief" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="EMGDataBaseModel.FK_ActImg_ActImg" FromRole="ActImg" ToRole="User" />
+          <NavigationProperty Name="Image" Relationship="EMGDataBaseModel.FK_Image_ActImg" FromRole="ActImg" ToRole="Image" />
+        </EntityType>
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="QuestionNo" />
+            <PropertyRef Name="TopicNo" />
+            <PropertyRef Name="Account" />
+          </Key>
+          <Property Name="QuestionNo" Type="Int32" Nullable="false" />
+          <Property Name="TopicNo" Type="Int32" Nullable="false" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="SelectNo" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Answer1" Relationship="EMGDataBaseModel.FK_Answer_Answer" FromRole="Answer" ToRole="Answer1" />
+          <NavigationProperty Name="Answer2" Relationship="EMGDataBaseModel.FK_Answer_Answer" FromRole="Answer1" ToRole="Answer" />
+          <NavigationProperty Name="Question" Relationship="EMGDataBaseModel.FK_Answer_Question" FromRole="Answer" ToRole="Question" />
+          <NavigationProperty Name="Topic" Relationship="EMGDataBaseModel.FK_Answer_Topic" FromRole="Answer" ToRole="Topic" />
+          <NavigationProperty Name="User" Relationship="EMGDataBaseModel.FK_Answer_User" FromRole="Answer" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="Days" />
+          </Key>
+          <Property Name="C_Id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Days" Type="Int32" Nullable="false" />
+          <Property Name="Pos1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Pos2" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Pos3" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Pos4" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Pos5" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Pos6" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Course_Tag">
+          <Key>
+            <PropertyRef Name="C_Id" />
+          </Key>
+          <Property Name="C_Id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CompleteTimes" Type="Int32" />
+          <Property Name="SumDays" Type="Int32" />
+          <Property Name="Part" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Goal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Time" Type="DateTime" Precision="3" />
+          <Property Name="Times" Type="Int32" />
+          <Property Name="Hard" Type="Double" />
+          <Property Name="Sports" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EMGData">
+          <Key>
+            <PropertyRef Name="E_Id" />
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Series" />
+            <PropertyRef Name="Times" />
+            <PropertyRef Name="Type" />
+          </Key>
+          <Property Name="E_Id" Type="Int32" Nullable="false" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="C_Id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="P_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Part" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Training" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Series" Type="Int32" Nullable="false" />
+          <Property Name="Times" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="EMG" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IEMG" Type="Double" Nullable="false" />
+          <Property Name="RMS" Type="Double" Nullable="false" />
+          <Property Name="PMVC" Type="Double" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Edition" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Edition" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Size" Type="Int32" Nullable="false" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsTrash" Type="Boolean" Nullable="false" />
+          <Property Name="IsLatest" Type="Boolean" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="IEMGData">
+          <Key>
+            <PropertyRef Name="I_Id" />
+          </Key>
+          <Property Name="I_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="C_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="P_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Part" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Training" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Series" Type="Int32" Nullable="false" />
+          <Property Name="Times" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="IEMG" Type="Double" Nullable="false" />
+          <Property Name="PMVC" Type="Double" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="EMGDataBaseModel.FK_IEMGData_User" FromRole="IEMGData" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Act_Id" />
+          </Key>
+          <Property Name="Act_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sort" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Img" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ActImg" Relationship="EMGDataBaseModel.FK_Image_ActImg" FromRole="Image" ToRole="ActImg" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MId" />
+          </Key>
+          <Property Name="MId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Messages" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsEdit" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Reply" Relationship="EMGDataBaseModel.FK_Reply_Message" FromRole="Message" ToRole="Reply" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="N_Id" />
+          </Key>
+          <Property Name="N_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Notice">
+          <Key>
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+          </Key>
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="C_Id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="P_Id" />
+          </Key>
+          <Property Name="P_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Img" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Posture">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Part" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="num" Type="Int32" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Brief" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Hard" Type="Int32" />
+          <Property Name="Device" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Iframe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionNo" />
+          </Key>
+          <Property Name="QuestionNo" Type="Int32" Nullable="false" />
+          <Property Name="QuestionName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CreateAccount" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Mark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Answer" Relationship="EMGDataBaseModel.FK_Answer_Question" FromRole="Question" ToRole="Answer" />
+          <NavigationProperty Name="User" Relationship="EMGDataBaseModel.FK_Question_User" FromRole="Question" ToRole="User" />
+          <NavigationProperty Name="Topic" Relationship="EMGDataBaseModel.FK_Topic_Question" FromRole="Question" ToRole="Topic" />
+          <NavigationProperty Name="TopicSelect" Relationship="EMGDataBaseModel.FK_TopicSelect_Question" FromRole="Question" ToRole="TopicSelect" />
+        </EntityType>
+        <EntityType Name="RecordEffect">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="P_Name" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="C_Id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="P_Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Part" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Strength" Type="Double" />
+          <Property Name="Endurance" Type="Double" />
+          <Property Name="Effect" Type="Double" />
+          <Property Name="Total" Type="Double" />
+        </EntityType>
+        <EntityType Name="Reply">
+          <Key>
+            <PropertyRef Name="RId" />
+          </Key>
+          <Property Name="RId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MId" Type="Int32" Nullable="false" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Replys" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReplyTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Message" Relationship="EMGDataBaseModel.FK_Reply_Message" FromRole="Reply" ToRole="Message" />
+        </EntityType>
+        <EntityType Name="Rest_Max">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="C_Id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="P_Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="restRMS" Type="Double" Nullable="false" />
+          <Property Name="maxRMS" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RMSData">
+          <Key>
+            <PropertyRef Name="R_Id" />
+          </Key>
+          <Property Name="R_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="C_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="P_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Part" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Training" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Series" Type="Int32" Nullable="false" />
+          <Property Name="Times" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="RMS" Type="Double" Nullable="false" />
+          <Property Name="PMVC" Type="Double" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="EMGDataBaseModel.FK_RMSData_User" FromRole="RMSData" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Text">
+          <Key>
+            <PropertyRef Name="Title" />
+          </Key>
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contents" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Account" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="TopicNo" />
+          </Key>
+          <Property Name="TopicNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionNo" Type="Int32" Nullable="false" />
+          <Property Name="TopicTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Answer" Relationship="EMGDataBaseModel.FK_Answer_Topic" FromRole="Topic" ToRole="Answer" />
+          <NavigationProperty Name="Question" Relationship="EMGDataBaseModel.FK_Topic_Question" FromRole="Topic" ToRole="Question" />
+          <NavigationProperty Name="TopicSelect" Relationship="EMGDataBaseModel.FK_TopicSelect_Topic" FromRole="Topic" ToRole="TopicSelect" />
+        </EntityType>
+        <EntityType Name="TopicSelect">
+          <Key>
+            <PropertyRef Name="QuestionNo" />
+            <PropertyRef Name="TopicNo" />
+            <PropertyRef Name="SelectNo" />
+          </Key>
+          <Property Name="QuestionNo" Type="Int32" Nullable="false" />
+          <Property Name="TopicNo" Type="Int32" Nullable="false" />
+          <Property Name="SelectNo" Type="Int32" Nullable="false" />
+          <Property Name="SelectName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Question" Relationship="EMGDataBaseModel.FK_TopicSelect_Question" FromRole="TopicSelect" ToRole="Question" />
+          <NavigationProperty Name="Topic" Relationship="EMGDataBaseModel.FK_TopicSelect_Topic" FromRole="TopicSelect" ToRole="Topic" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Account" />
+          </Key>
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Birth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="Blood" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Height" Type="Double" Nullable="false" />
+          <Property Name="Weight" Type="Double" Nullable="false" />
+          <Property Name="Bodyfat" Type="Double" Nullable="false" />
+          <Property Name="BMR" Type="Double" Nullable="false" />
+          <Property Name="Disease" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Size" Type="Int32" />
+          <Property Name="Balance" Type="Double" Nullable="false" />
+          <Property Name="Strength" Type="Double" Nullable="false" />
+          <Property Name="Endurance" Type="Double" Nullable="false" />
+          <Property Name="Effect" Type="Double" Nullable="false" />
+          <Property Name="Bodyrate" Type="Double" Nullable="false" />
+          <Property Name="Burden" Type="Double" Nullable="false" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ActImg" Relationship="EMGDataBaseModel.FK_ActImg_ActImg" FromRole="User" ToRole="ActImg" />
+          <NavigationProperty Name="Answer" Relationship="EMGDataBaseModel.FK_Answer_User" FromRole="User" ToRole="Answer" />
+          <NavigationProperty Name="IEMGData" Relationship="EMGDataBaseModel.FK_IEMGData_User" FromRole="User" ToRole="IEMGData" />
+          <NavigationProperty Name="Question" Relationship="EMGDataBaseModel.FK_Question_User" FromRole="User" ToRole="Question" />
+          <NavigationProperty Name="RMSData" Relationship="EMGDataBaseModel.FK_RMSData_User" FromRole="User" ToRole="RMSData" />
+        </EntityType>
+        <EntityType Name="UserHabit">
+          <Key>
+            <PropertyRef Name="Account" />
+          </Key>
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Control" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fruit" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ability" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ontime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fry" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Drink" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Quality" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sportnum" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sporttime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sports" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Motivation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Grade" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Place" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Look" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Want" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Request" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Increase" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserStatus">
+          <Key>
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="C_Id" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="C_Id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Height" Type="Double" Nullable="false" />
+          <Property Name="Weight" Type="Double" Nullable="false" />
+          <Property Name="Bodyfat" Type="Double" Nullable="false" />
+          <Property Name="BMR" Type="Double" Nullable="false" />
+          <Property Name="Balance" Type="Double" Nullable="false" />
+          <Property Name="Strength" Type="Double" Nullable="false" />
+          <Property Name="Endurance" Type="Double" Nullable="false" />
+          <Property Name="Effect" Type="Double" Nullable="false" />
+          <Property Name="Bodyrate" Type="Double" Nullable="false" />
+          <Property Name="Burden" Type="Double" Nullable="false" />
+          <Property Name="Rank" Type="Double" />
+        </EntityType>
+        <EntityType Name="Usertest">
+          <Key>
+            <PropertyRef Name="Account" />
+          </Key>
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Birth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="Blood" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Height" Type="Double" Nullable="false" />
+          <Property Name="Weight" Type="Double" Nullable="false" />
+          <Property Name="Bodyfat" Type="Double" Nullable="false" />
+          <Property Name="BMR" Type="Double" Nullable="false" />
+          <Property Name="Disease" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="History" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Job" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sportnum" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sporttime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sports" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Warmup" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Interest" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Place" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Motivation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Purpose" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Want" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Request" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Quality" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Hobby" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fry" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Drink" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ontime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Increase" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ActImg_ActImg">
+          <End Type="EMGDataBaseModel.User" Role="User" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.ActImg" Role="ActImg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="ActImg">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Image_ActImg">
+          <End Type="EMGDataBaseModel.ActImg" Role="ActImg" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.Image" Role="Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActImg">
+              <PropertyRef Name="Sort" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="Sort" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_Answer">
+          <End Type="EMGDataBaseModel.Answer" Role="Answer" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.Answer" Role="Answer1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="QuestionNo" />
+              <PropertyRef Name="TopicNo" />
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="Answer1">
+              <PropertyRef Name="QuestionNo" />
+              <PropertyRef Name="TopicNo" />
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_Question">
+          <End Type="EMGDataBaseModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.Answer" Role="Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionNo" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="QuestionNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_Topic">
+          <End Type="EMGDataBaseModel.Topic" Role="Topic" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.Answer" Role="Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="TopicNo" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="TopicNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Answer_User">
+          <End Type="EMGDataBaseModel.User" Role="User" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.Answer" Role="Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IEMGData_User">
+          <End Type="EMGDataBaseModel.User" Role="User" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.IEMGData" Role="IEMGData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="IEMGData">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reply_Message">
+          <End Type="EMGDataBaseModel.Message" Role="Message" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.Reply" Role="Reply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="MId" />
+            </Principal>
+            <Dependent Role="Reply">
+              <PropertyRef Name="MId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_User">
+          <End Type="EMGDataBaseModel.User" Role="User" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="CreateAccount" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_Question">
+          <End Type="EMGDataBaseModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.Topic" Role="Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionNo" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="QuestionNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TopicSelect_Question">
+          <End Type="EMGDataBaseModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.TopicSelect" Role="TopicSelect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionNo" />
+            </Principal>
+            <Dependent Role="TopicSelect">
+              <PropertyRef Name="QuestionNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RMSData_User">
+          <End Type="EMGDataBaseModel.User" Role="User" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.RMSData" Role="RMSData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="RMSData">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TopicSelect_Topic">
+          <End Type="EMGDataBaseModel.Topic" Role="Topic" Multiplicity="1" />
+          <End Type="EMGDataBaseModel.TopicSelect" Role="TopicSelect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="TopicNo" />
+            </Principal>
+            <Dependent Role="TopicSelect">
+              <PropertyRef Name="TopicNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EMGDataBaseModelStoreContainer" CdmEntityContainer="EMGDataBaseEntities">
+          <EntitySetMapping Name="Account_Course">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Account_Course">
+              <MappingFragment StoreEntitySet="Account_Course">
+                <ScalarProperty Name="Complete" ColumnName="Complete" />
+                <ScalarProperty Name="Power" ColumnName="Power" />
+                <ScalarProperty Name="Times" ColumnName="Times" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="Part" ColumnName="Part" />
+                <ScalarProperty Name="P_Name" ColumnName="P_Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="C_Id" ColumnName="C_Id" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActImg">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.ActImg">
+              <MappingFragment StoreEntitySet="ActImg">
+                <ScalarProperty Name="Brief" ColumnName="Brief" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Img" ColumnName="Img" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Answer">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Answer">
+              <MappingFragment StoreEntitySet="Answer">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="SelectNo" ColumnName="SelectNo" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="TopicNo" ColumnName="TopicNo" />
+                <ScalarProperty Name="QuestionNo" ColumnName="QuestionNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Course">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="Pos6" ColumnName="Pos6" />
+                <ScalarProperty Name="Pos5" ColumnName="Pos5" />
+                <ScalarProperty Name="Pos4" ColumnName="Pos4" />
+                <ScalarProperty Name="Pos3" ColumnName="Pos3" />
+                <ScalarProperty Name="Pos2" ColumnName="Pos2" />
+                <ScalarProperty Name="Pos1" ColumnName="Pos1" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="C_Id" ColumnName="C_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Course_Tag">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Course_Tag">
+              <MappingFragment StoreEntitySet="Course_Tag">
+                <ScalarProperty Name="Sports" ColumnName="Sports" />
+                <ScalarProperty Name="Hard" ColumnName="Hard" />
+                <ScalarProperty Name="Times" ColumnName="Times" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Goal" ColumnName="Goal" />
+                <ScalarProperty Name="Part" ColumnName="Part" />
+                <ScalarProperty Name="SumDays" ColumnName="SumDays" />
+                <ScalarProperty Name="CompleteTimes" ColumnName="CompleteTimes" />
+                <ScalarProperty Name="C_Id" ColumnName="C_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMGData">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.EMGData">
+              <MappingFragment StoreEntitySet="EMGData">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="PMVC" ColumnName="PMVC" />
+                <ScalarProperty Name="RMS" ColumnName="RMS" />
+                <ScalarProperty Name="IEMG" ColumnName="IEMG" />
+                <ScalarProperty Name="EMG" ColumnName="EMG" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Times" ColumnName="Times" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="Training" ColumnName="Training" />
+                <ScalarProperty Name="Part" ColumnName="Part" />
+                <ScalarProperty Name="P_Name" ColumnName="P_Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="C_Id" ColumnName="C_Id" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="E_Id" ColumnName="E_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="File">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.File">
+              <MappingFragment StoreEntitySet="File">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IsLatest" ColumnName="IsLatest" />
+                <ScalarProperty Name="IsTrash" ColumnName="IsTrash" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Edition" ColumnName="Edition" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IEMGData">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.IEMGData">
+              <MappingFragment StoreEntitySet="IEMGData">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="PMVC" ColumnName="PMVC" />
+                <ScalarProperty Name="IEMG" ColumnName="IEMG" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Times" ColumnName="Times" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="Training" ColumnName="Training" />
+                <ScalarProperty Name="Part" ColumnName="Part" />
+                <ScalarProperty Name="P_Name" ColumnName="P_Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="C_Id" ColumnName="C_Id" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="I_Id" ColumnName="I_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Image">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Image">
+              <MappingFragment StoreEntitySet="Image">
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Img" ColumnName="Img" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="Act_Id" ColumnName="Act_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Message">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="IsEdit" ColumnName="IsEdit" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Messages" ColumnName="Messages" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="MId" ColumnName="MId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="News">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.News">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="N_Id" ColumnName="N_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notice">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Notice">
+              <MappingFragment StoreEntitySet="Notice">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="C_Id" ColumnName="C_Id" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Photo">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Photo">
+              <MappingFragment StoreEntitySet="Photo">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Img" ColumnName="Img" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="P_Id" ColumnName="P_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posture">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Posture">
+              <MappingFragment StoreEntitySet="Posture">
+                <ScalarProperty Name="Iframe" ColumnName="Iframe" />
+                <ScalarProperty Name="Device" ColumnName="Device" />
+                <ScalarProperty Name="Hard" ColumnName="Hard" />
+                <ScalarProperty Name="Brief" ColumnName="Brief" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="num" ColumnName="num" />
+                <ScalarProperty Name="Part" ColumnName="Part" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Question">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreateAccount" ColumnName="CreateAccount" />
+                <ScalarProperty Name="QuestionName" ColumnName="QuestionName" />
+                <ScalarProperty Name="QuestionNo" ColumnName="QuestionNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecordEffect">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.RecordEffect">
+              <MappingFragment StoreEntitySet="RecordEffect">
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Effect" ColumnName="Effect" />
+                <ScalarProperty Name="Endurance" ColumnName="Endurance" />
+                <ScalarProperty Name="Strength" ColumnName="Strength" />
+                <ScalarProperty Name="Part" ColumnName="Part" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="P_Name" ColumnName="P_Name" />
+                <ScalarProperty Name="C_Id" ColumnName="C_Id" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reply">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Reply">
+              <MappingFragment StoreEntitySet="Reply">
+                <ScalarProperty Name="ReplyTime" ColumnName="ReplyTime" />
+                <ScalarProperty Name="Replys" ColumnName="Replys" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="MId" ColumnName="MId" />
+                <ScalarProperty Name="RId" ColumnName="RId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rest_Max">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Rest_Max">
+              <MappingFragment StoreEntitySet="Rest_Max">
+                <ScalarProperty Name="maxRMS" ColumnName="maxRMS" />
+                <ScalarProperty Name="restRMS" ColumnName="restRMS" />
+                <ScalarProperty Name="P_Name" ColumnName="P_Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="C_Id" ColumnName="C_Id" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RMSData">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.RMSData">
+              <MappingFragment StoreEntitySet="RMSData">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="PMVC" ColumnName="PMVC" />
+                <ScalarProperty Name="RMS" ColumnName="RMS" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Times" ColumnName="Times" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="Training" ColumnName="Training" />
+                <ScalarProperty Name="Part" ColumnName="Part" />
+                <ScalarProperty Name="P_Name" ColumnName="P_Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="C_Id" ColumnName="C_Id" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="R_Id" ColumnName="R_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Text">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Text">
+              <MappingFragment StoreEntitySet="Text">
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Contents" ColumnName="Contents" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Topic">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Topic">
+              <MappingFragment StoreEntitySet="Topic">
+                <ScalarProperty Name="TopicTitle" ColumnName="TopicTitle" />
+                <ScalarProperty Name="QuestionNo" ColumnName="QuestionNo" />
+                <ScalarProperty Name="TopicNo" ColumnName="TopicNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TopicSelect">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.TopicSelect">
+              <MappingFragment StoreEntitySet="TopicSelect">
+                <ScalarProperty Name="SelectName" ColumnName="SelectName" />
+                <ScalarProperty Name="SelectNo" ColumnName="SelectNo" />
+                <ScalarProperty Name="TopicNo" ColumnName="TopicNo" />
+                <ScalarProperty Name="QuestionNo" ColumnName="QuestionNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="Burden" ColumnName="Burden" />
+                <ScalarProperty Name="Bodyrate" ColumnName="Bodyrate" />
+                <ScalarProperty Name="Effect" ColumnName="Effect" />
+                <ScalarProperty Name="Endurance" ColumnName="Endurance" />
+                <ScalarProperty Name="Strength" ColumnName="Strength" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Disease" ColumnName="Disease" />
+                <ScalarProperty Name="BMR" ColumnName="BMR" />
+                <ScalarProperty Name="Bodyfat" ColumnName="Bodyfat" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Blood" ColumnName="Blood" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Birth" ColumnName="Birth" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserHabit">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.UserHabit">
+              <MappingFragment StoreEntitySet="UserHabit">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Increase" ColumnName="Increase" />
+                <ScalarProperty Name="Request" ColumnName="Request" />
+                <ScalarProperty Name="Want" ColumnName="Want" />
+                <ScalarProperty Name="Look" ColumnName="Look" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Motivation" ColumnName="Motivation" />
+                <ScalarProperty Name="Sports" ColumnName="Sports" />
+                <ScalarProperty Name="Sporttime" ColumnName="Sporttime" />
+                <ScalarProperty Name="Sportnum" ColumnName="Sportnum" />
+                <ScalarProperty Name="Quality" ColumnName="Quality" />
+                <ScalarProperty Name="Drink" ColumnName="Drink" />
+                <ScalarProperty Name="Fry" ColumnName="Fry" />
+                <ScalarProperty Name="Ontime" ColumnName="Ontime" />
+                <ScalarProperty Name="Ability" ColumnName="Ability" />
+                <ScalarProperty Name="Fruit" ColumnName="Fruit" />
+                <ScalarProperty Name="Control" ColumnName="Control" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserStatus">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.UserStatus">
+              <MappingFragment StoreEntitySet="UserStatus">
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="Burden" ColumnName="Burden" />
+                <ScalarProperty Name="Bodyrate" ColumnName="Bodyrate" />
+                <ScalarProperty Name="Effect" ColumnName="Effect" />
+                <ScalarProperty Name="Endurance" ColumnName="Endurance" />
+                <ScalarProperty Name="Strength" ColumnName="Strength" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="BMR" ColumnName="BMR" />
+                <ScalarProperty Name="Bodyfat" ColumnName="Bodyfat" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="C_Id" ColumnName="C_Id" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usertest">
+            <EntityTypeMapping TypeName="EMGDataBaseModel.Usertest">
+              <MappingFragment StoreEntitySet="Usertest">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="Increase" ColumnName="Increase" />
+                <ScalarProperty Name="Ontime" ColumnName="Ontime" />
+                <ScalarProperty Name="Drink" ColumnName="Drink" />
+                <ScalarProperty Name="Fry" ColumnName="Fry" />
+                <ScalarProperty Name="Hobby" ColumnName="Hobby" />
+                <ScalarProperty Name="Quality" ColumnName="Quality" />
+                <ScalarProperty Name="Request" ColumnName="Request" />
+                <ScalarProperty Name="Want" ColumnName="Want" />
+                <ScalarProperty Name="Purpose" ColumnName="Purpose" />
+                <ScalarProperty Name="Motivation" ColumnName="Motivation" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Interest" ColumnName="Interest" />
+                <ScalarProperty Name="Warmup" ColumnName="Warmup" />
+                <ScalarProperty Name="Sports" ColumnName="Sports" />
+                <ScalarProperty Name="Sporttime" ColumnName="Sporttime" />
+                <ScalarProperty Name="Sportnum" ColumnName="Sportnum" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="History" ColumnName="History" />
+                <ScalarProperty Name="Disease" ColumnName="Disease" />
+                <ScalarProperty Name="BMR" ColumnName="BMR" />
+                <ScalarProperty Name="Bodyfat" ColumnName="Bodyfat" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Blood" ColumnName="Blood" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Birth" ColumnName="Birth" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

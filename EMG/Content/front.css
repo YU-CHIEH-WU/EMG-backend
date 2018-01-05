@@ -1,0 +1,61 @@
+/* line 2, ../sass/front.scss */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* line 8, ../sass/front.scss */
+.prev {
+  width: 10%;
+  height: 10%;
+  left: 24px;
+  top: 40%;
+  position: fixed;
+  z-index: 998;
+  text-align: left;
+}
+/* line 16, ../sass/front.scss */
+.prev i {
+  cursor: pointer;
+}
+
+/* line 20, ../sass/front.scss */
+.next {
+  width: 10%;
+  height: 10%;
+  right: 24px;
+  top: 40%;
+  position: fixed;
+  z-index: 998;
+  text-align: right;
+}
+/* line 28, ../sass/front.scss */
+.next i {
+  cursor: pointer;
+}
+
+/* line 32, ../sass/front.scss */
+.block-slide {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  position: absolute;
+  -moz-transition: all, 0.3s, ease-in-out;
+  -o-transition: all, 0.3s, ease-in-out;
+  -webkit-transition: all, 0.3s, ease-in-out;
+  transition: all, 0.3s, ease-in-out;
+}
+/* line 38, ../sass/front.scss */
+.block-slide.active {
+  left: 0;
+}
+/* line 41, ../sass/front.scss */
+.block-slide.left {
+  left: -100%;
+}
+/* line 44, ../sass/front.scss */
+.block-slide.right {
+  left: 100%;
+}

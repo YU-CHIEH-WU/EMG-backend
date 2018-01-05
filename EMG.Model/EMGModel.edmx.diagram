@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="89aaa699f5db49daa6dbd89cea06f409" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="EMGDataBaseModel.Account_Course" Width="1.5" PointX="9.75" PointY="4.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.ActImg" Width="1.5" PointX="3" PointY="19.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Answer" Width="1.5" PointX="7.5" PointY="7.5" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Course" Width="1.5" PointX="9.75" PointY="8.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Course_Tag" Width="1.5" PointX="11.75" PointY="4.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.EMGData" Width="1.5" PointX="5.75" PointY="11.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.File" Width="1.5" PointX="11.75" PointY="8.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.IEMGData" Width="1.5" PointX="3" PointY="15.25" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Image" Width="1.5" PointX="5.25" PointY="19.875" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Message" Width="1.5" PointX="9.75" PointY="1" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.News" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Notice" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Photo" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Posture" Width="1.5" PointX="7.75" PointY="12.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Question" Width="1.5" PointX="3" PointY="3.625" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.RecordEffect" Width="1.5" PointX="9.75" PointY="12.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Reply" Width="1.5" PointX="12" PointY="1" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Rest_Max" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.RMSData" Width="1.5" PointX="3" PointY="10.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Text" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Topic" Width="1.5" PointX="5.25" PointY="3.875" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.TopicSelect" Width="1.5" PointX="7.5" PointY="3.875" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.User" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.UserHabit" Width="1.5" PointX="11.75" PointY="12.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.UserStatus" Width="1.5" PointX="13.75" PointY="4.75" />
+        <EntityTypeShape EntityType="EMGDataBaseModel.Usertest" Width="1.5" PointX="13.75" PointY="9.75" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_ActImg_ActImg" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_Image_ActImg" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_Answer_Answer" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_Answer_Question" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_Answer_Topic" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_Answer_User" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_IEMGData_User" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_Reply_Message" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_Question_User" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_Topic_Question" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_TopicSelect_Question" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_RMSData_User" />
+        <AssociationConnector Association="EMGDataBaseModel.FK_TopicSelect_Topic" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

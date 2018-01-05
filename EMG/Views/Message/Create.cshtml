@@ -1,0 +1,42 @@
+﻿@model EMG.Model.MessageCreateView
+@{
+    ViewBag.Title = "新增留言";
+    Layout = null;
+}
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval.js")
+}
+
+@using (Html.BeginForm("Create", "Message", new { Name = "Create" }))
+{
+    <h4>新增留言</h4>
+    <table boder="1">
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.Account)
+            </td>
+            <td>
+                @User.Identity.Name
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(m => m.Title)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Title)
+                @Html.ValidationMessageFor(m => m.Title)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(m => m.Messages)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Messages)
+                @Html.ValidationMessageFor(m => m.Messages)
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="新增留言" />
+}

@@ -1,0 +1,28 @@
+﻿@model EMG.Model.FileListView
+@{
+    ViewBag.Title = "Index";
+    @Scripts.Render("~/Scripts/jquery.form.js")
+    @Scripts.Render("~/Scripts/File/FileUpload.js")
+    Layout = null;
+}
+
+<h2>Index</h2>
+<div id="FileUpload">
+    @using (Ajax.BeginForm("UploadFile", "File", new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "status",
+        InsertionMode = InsertionMode.Replace
+    }, new { enctype = "multipart/form-data" }))
+    {
+        @*@Html.AntiForgeryToken()*@
+        <input type="file" name="file" id="files"><br>
+        <input type="submit" value="上傳檔案">
+    }
+    <div class="progress progress-striped" style="display:none;">
+        <div class="progress-bar progress-bar-success">0%</div>
+    </div>
+    <div id="status">
+        @Html.Partial("_IndexPartial", Model)
+    </div>
+</div>

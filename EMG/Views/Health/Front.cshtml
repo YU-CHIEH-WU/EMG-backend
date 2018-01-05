@@ -1,0 +1,13 @@
+﻿@model EMG.Model.Text
+@{ 
+    ViewBag.Title = "Front";
+}
+<div class="textTitle">
+    @if (Model.Title == "健康飲食資訊")
+    {<h1>健康飲食資訊</h1>}
+</div>
+<br />
+<div class="textback">
+    <p>@Html.Raw(Model.Contents)</p>
+</div>
+

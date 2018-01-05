@@ -1,0 +1,735 @@
+﻿@model EMG.Model.ViewModel.BoardView
+@{
+    ViewBag.Title = "Board Page";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en" ng-app="mainApp" ng-controller="blockController">
+<head>
+    <meta charset="UTF-8">
+    <title>FIT ME個人首頁</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/screen.css">
+    <link rel="stylesheet" href="~/Content/board.css">
+</head>
+<body ng-class="{unscroll:isDetailActive,unscroll:isCourseShow}">
+    <!-- init放入使用者帳號 -->
+    <div id="fb-root"></div>
+    <div class="container">
+        <div class="row">
+            <!-- 主頁面 -->
+            <div class="block-container" ng-class="{gotop:isDetailActive,ontop:isOntop,filter:isCourseShow}" when-transition-end="setOntop()">
+                <div class="col-md-3 col-xs-6 block-outer">
+                    <!-- 會員 -->
+                    <div class="block-inner block-inner-1" id="block-user">
+                        <div class="block-header">會員</div>
+                        <div class="block-body">
+                            <div class="block-user">
+                                <div class="block-user-info">
+                                    <div class="block-user-photo">
+                                        <img class="user-photo" ng-src="{{loginUser.photo}}">
+                                    </div>
+                                    <div class="block-user-name">
+                                        <p class="user-name">{{loginUser.name}}</p>
+                                    </div>
+                                    <div class="block-user-edit">
+                                        <p class="user-edit" ng-click="showDetail6()">修改個人資料</p>
+                                    </div>
+                                </div>
+                                <div class="block-user-group">
+                                    <div class="block-user-album" ng-click="showDetail3()">個人相簿</div>
+                                    <div class="block-user-message" ng-click="showDetail5()">肌友交流</div>
+                                </div>
+                                <div class="block-user-index">
+                                    <button type="button" class="btn btn-flat" id="btn-index" ng-click = "goIndex()">返回總覽首頁</button>
+                                    @*@Html.ActionLink("返回總覽首頁", "Index", "Home", null, new { @class = "btn btn-flat", @id = "btn-index" })*@
+                                    <button type="button" class="btn btn-flat" id="btn-logout" ng-click="logout()">登出</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6 block-outer">
+                    <!-- 課程行事曆-->
+                    <div class="block-inner block-inner-1" id="block-course">
+                        <div class="block-header">課程行事曆</div>
+                        <div class="block-body">
+                            <div class="scroller" ng-show="isHaveCourse">
+                                <div class="block-course-list" ng-repeat="course in courseList" ng-click="showDetail4(course.Date)">
+                                    <div class="block-course-thumb"><img ng-src="{{course.thumb}}" class="course-thumb"></div>
+                                    <div class="block-course-title">{{course.P_Name}}</div>
+                                    <div class="block-course-time">{{course.Date|date:'yyyy-MM-dd'}}{{course.weekday}}</div>
+                                </div>
+                            </div>
+                            <div class="block-course-start">
+                                <button class="btn btn-flat" id="btn-course" ng-hide="isHaveCourse" ng-click="newCourse()">產生新課程</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 個人素質 -->
+                @*<div class="col-md-3 col-xs-6 block-outer">
+                    <div class="block-inner block-inner-1" id="block-status">
+                        <div class="block-header">
+                            <p class="pull-left">個人素質</p>
+                            <button class="btn btn-saveSVG pull-right" data-chartname="status" id="btn-trainingSVG">分享圖表</button>
+                        </div>
+                        <div class="block-body">
+                            <div class="block-thumb" id="block-chart-status"></div>
+                        </div>
+                    </div>
+                </div>*@
+                <div class="col-md-3 col-xs-6 block-outer">
+                    <div class="block-inner block-inner-1" id="block-status">
+                        <div class="block-header">
+                            <p class="pull-left">個人素質</p>
+                            <button class="btn btn-saveSVG pull-right" data-chartname="status" id="btn-trainingSVG">分享圖表</button>
+                        </div>
+                        <div class="block-body">
+                            <div ng-if="!isAdmin" class="block-alert">
+                                請先完成兩週以上的課程。
+                            </div>
+                            <div class="block-thumb" id="block-chart-status"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 體脂 -->
+                @*<div class="col-md-3 col-xs-6 block-outer">
+                    <div class="block-inner block-inner-1" id="block-bodyfat">
+                        <div class="block-header">
+                            <p class="pull-left">體脂</p>
+                            <button class="btn btn-saveSVG pull-right" data-chartname="bodyfatThumb" id="btn-trainingSVG">分享圖表</button>
+                        </div>
+                        <div class="block-body">
+                            <div class="block-thumb" id="block-bodyfat-thumb"></div>
+                        </div>
+                    </div>
+                </div>*@
+                <div class="col-md-3 col-xs-6 block-outer">
+                    <div class="block-inner block-inner-1" id="block-bodyfat">
+                        <div class="block-header">
+                            <p class="pull-left">體脂</p>
+                            <button class="btn btn-saveSVG pull-right" data-chartname="bodyfatThumb" id="btn-trainingSVG">分享圖表</button>
+                        </div>
+                        <div class="block-body">
+                            <div ng-if="!isAdmin" class="block-alert">
+                                請先完成兩週以上的課程。
+                            </div>
+                            <div class="block-thumb" id="block-bodyfat-thumb"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 訓練成效 -->
+                @*<div class="col-md-6 col-xs-12 block-outer">
+                    <div class="block-inner block-inner-2 clickable" id="block-training" ng-mouseenter="showMessage('training')" ng-mouseleave="hideMessage('training')">
+                        <div class="block-header">
+                            <p class="pull-left">訓練成效</p>
+                            <button class="btn btn-saveSVG pull-right" data-chartname="training" id="btn-trainingSVG">分享圖表</button>
+                        </div>
+                        <div class="block-body">
+                            <div class="block-thumb" id="block-training-thumb" ng-click="showDetail1()"></div>
+                            <input type="hidden" id="trainingSVG" ng-model="trainingSVG">
+                        </div>
+                        <div class="block-message" id="training-message" ng-class="{active:hoverTraining}">
+                            <p>這張圖表將你每次訓練時的各項指標加權計算，並以此評估你每次的訓練成效。</p>
+                            <p>點擊圖表可查看詳細資訊</p>
+                        </div>
+                    </div>
+                </div>*@
+                <div class="col-md-6 col-xs-12 block-outer">
+                    <div class="block-inner block-inner-2" ng-class="{clickable:isAdmin}" id="block-training" ng-mouseenter="showMessage('training')" ng-mouseleave="hideMessage('training')">
+                        <div class="block-header">
+                            <p class="pull-left">訓練成效</p>
+                            <button class="btn btn-saveSVG pull-right" data-chartname="training" id="btn-trainingSVG">分享圖表</button>
+                        </div>
+                        <div class="block-body">
+                            <div ng-if="!isAdmin" class="block-alert">
+                                請先完成兩週以上的課程。
+                            </div>
+                            <div class="block-thumb" id="block-training-thumb" ng-click="showDetail1()"></div>
+                            <input type="hidden" id="trainingSVG" ng-model="trainingSVG">
+                        </div>
+                        <div class="block-message" id="training-message" ng-class="{active:hoverTraining}">
+                            <p>這張圖表將你每次訓練時的各項指標加權計算，並以此評估你每次的訓練成效。</p>
+                            <p>點擊圖表可查看詳細資訊</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 肌肉成長 -->
+                @*<div class="col-md-6 col-xs-12 block-outer">
+                    <div class="block-inner block-inner-2 clickable" id="block-grow" ng-mouseenter="showMessage('grow')" ng-mouseleave="hideMessage('grow')">
+                        <div class="block-header">
+                            <p class="pull-left">肌肉成長</p>
+                            <button class="btn btn-saveSVG pull-right" data-chartname="grow" id="btn-trainingSVG">分享圖表</button>
+                        </div>
+                        <div class="block-body">
+                            <div class="block-thumb" id="block-grow-thumb" ng-click="showDetail2()"></div>
+                        </div>
+                        <div class="block-message" id="grow-message" ng-class="{active:hoverGrow}">
+                            <p>這張圖表將你各項肌肉指標加權計算，並以此評估你的肌肉成長比例。</p>
+                            <p>點擊圖表可查看詳細資訊</p>
+                        </div>
+                    </div>
+                </div>*@
+                <div class="col-md-6 col-xs-12 block-outer">
+                    <div class="block-inner block-inner-2" ng-class="{clickable:isAdmin}" id="block-grow" ng-mouseenter="showMessage('grow')" ng-mouseleave="hideMessage('grow')">
+                        <div class="block-header">
+                            <p class="pull-left">肌肉成長</p>
+                            <button class="btn btn-saveSVG pull-right" data-chartname="grow" id="btn-trainingSVG">分享圖表</button>
+                        </div>
+                        <div class="block-body">
+                            <div ng-if="!isAdmin" class="block-alert">
+                                請先完成兩週以上的課程。
+                            </div>
+                            <div class="block-thumb" id="block-grow-thumb" ng-click="showDetail2()"></div>
+                        </div>
+                        <div class="block-message" id="grow-message" ng-class="{active:hoverGrow}">
+                            <p>這張圖表將你各項肌肉指標加權計算，並以此評估你的肌肉成長比例。</p>
+                            <p>點擊圖表可查看詳細資訊</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 年齡與性別 -->
+                <div class="col-md-4 col-xs-6 block-outer">
+                    <div class="block-inner block-inner-4">
+                        <div class="block-header">依據年齡與性別推薦給你/妳</div>
+                        <div class="block-body" ng-click="showRecommend('age')">
+                            <img src="http://163.17.136.197:8080/EMG/images/age.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 運動項目  -->
+                <div class="col-md-4 col-xs-6 block-outer">
+                    <div class="block-inner block-inner-4">
+                        <div class="block-header">依據運動項目推薦給你/妳</div>
+                        <div class="block-body" ng-click="showRecommend('sport')">
+                            <img src="http://163.17.136.197:8080/EMG/images/sport.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 訓練部位 -->
+                <div class="col-md-4 col-xs-6 block-outer">
+                    <div class="block-inner block-inner-4">
+                        <div class="block-header">依據注重肌肉部位推薦給你/妳</div>
+                        <div class="block-body" ng-click="showRecommend('place')">
+                            <img src="http://163.17.136.197:8080/EMG/images/part.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 訓練目標 -->
+                <div class="col-md-4 col-xs-6 block-outer">
+                    <div class="block-inner block-inner-4">
+                        <div class="block-header">依據健身動力推薦給你/妳</div>
+                        <div class="block-body" ng-click="showRecommend('motivation')">
+                            <img src="http://163.17.136.197:8080/EMG/images/motivation.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 已完成課程 -->
+                <div class="col-md-4 col-xs-6 block-outer">
+                    <div class="block-inner block-inner-4">
+                        <div class="block-header">依據完成課程推薦給你/妳</div>
+                        <div class="block-body" ng-click="showRecommend('same')">
+                            <img src="http://163.17.136.197:8080/EMG/images/same.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 關注課程 -->
+                <div class="col-md-4 col-xs-6 block-outer">
+                    <div class="block-inner block-inner-4">
+                        <div class="block-header">依據關注課程推薦給你/妳</div>
+                        <div class="block-body" ng-click="showRecommend('watch')">
+                            <img src="http://163.17.136.197:8080/EMG/images/watch.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 推薦課程詳細 -->
+            @*<div class="block-recommend-outer" ng-if="isRecommendClick" ng-click="hideRecommend()" ng-class="{active:isRecommendShow}">
+            </div>
+            <div class="block-inner block-recommend-inner" ng-if="isRecommendClick" ng-class="{active:isRecommendShow}">
+                <div class="block-header"><span class="title">{{recommendList.title}}</span><span class="back" ng-click="hideRecommend()"><i class="fa fa-times icon-back"></i></span></div>
+                <div class="block-body slide">
+                    <div class="recommend-scroller" ng-class="{active:isPositionShow}">
+                        <div class="recommend-list-outer col-sm-4" ng-repeat="course in recommendList" ng-if="recommendList.isHaveCourse">
+                            <div class="recommend-list-inner">
+                                <p>{{course.Days}}</p>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos1)">
+                                    <p>{{course.Pos1}}</p>
+                                </div>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos2)">
+                                    <p>{{course.Pos2}}</p>
+                                </div>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos3)">
+                                    <p>{{course.Pos3}}</p>
+                                </div>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos4)">
+                                    <p>{{course.Pos4}}</p>
+                                </div>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos5)">
+                                    <p>{{course.Pos5}}</p>
+                                </div>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos6)">
+                                    <p>{{course.Pos6}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="recommend-list-inner col-sm-4" ng-if="!recommendList.isHaveCourse">
+                            {{recommendList.message}}
+                        </div>
+                    </div>
+                    <div class="recommend-option">
+                        <button class="btn btn-flat">關注課程</button>
+                        <button class="btn btn-flat">加入課程</button>
+                    </div>*@
+                    <!-- 動作詳細 -->
+                    @*<div class="position-detail" ng-class="{active:isPositionShow}">
+                        <p>{{posture.name}}</p>
+                        <p>動作詳細說明（圖解或影片）</p>
+                        <br>
+                        <br>
+                        <iframe ng-src="{{posture.src}}" frameborder="0"></iframe>
+                        <button class="btn btn-flat" ng-click="backCourseList()">返回課程預覽</button>
+                    </div>
+                </div>
+            </div>
+            <div class="block-course-outer" ng-show="isCourseShow" ng-click="hideCourse('continue')">
+            </div>*@
+            <div class="block-recommend-outer" ng-if="isRecommendClick" ng-click="hideRecommend()" ng-class="{active:isRecommendShow}">
+            </div>
+            <div class="block-inner block-recommend-inner" ng-if="isRecommendClick" ng-class="{active:isRecommendShow}">
+                <div class="block-header"><span class="title">{{recommendList.title}}</span><span class="back" ng-click="hideRecommend()"><i class="fa fa-times icon-back"></i></span></div>
+                <div class="block-body slide">
+                    <div class="recommend-scroller" ng-class="{active:isPositionShow}">
+                        <div class="recommend-list-outer col-sm-4" ng-repeat="course in recommendList" ng-if="recommendList.isHaveCourse">
+                            <div class="recommend-list-inner">
+                                <p>{{course.Days}}</p>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos1)">
+                                    <p>{{course.Pos1}}</p>
+                                </div>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos2)">
+                                    <p>{{course.Pos2}}</p>
+                                </div>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos3)">
+                                    <p>{{course.Pos3}}</p>
+                                </div>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos4)">
+                                    <p>{{course.Pos4}}</p>
+                                </div>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos5)">
+                                    <p>{{course.Pos5}}</p>
+                                </div>
+                                <div class="recommend-position" ng-click="showPositionDetail(course.Pos6)">
+                                    <p>{{course.Pos6}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="recommend-list-inner col-sm-4" ng-if="!recommendList.isHaveCourse">
+                            {{recommendList.message}}
+                        </div>
+                    </div>
+                    <div class="recommend-option">
+                        <button class="btn btn-flat">關注課程</button>
+                        <button class="btn btn-flat">加入課程</button>
+                    </div>
+                    <!-- 動作詳細 -->
+                    <div class="position-detail" ng-class="{active:isPositionShow}">
+                        <p>{{posture.name}}</p>
+                        <p>動作詳細說明（圖解或影片）</p>
+                        <br>
+                        <br>
+                        <iframe ng-src="{{posture.src}}" frameborder="0"></iframe>
+                        <button class="btn btn-flat" ng-click="backCourseList()">返回課程預覽</button>
+                    </div>
+                </div>
+            </div>
+            <div class="block-course-outer" ng-show="isCourseShow" ng-click="hideCourse('continue')">
+            </div>
+            <div class="block-inner block-course-inner" ng-show="isCourseShow" ng-class="{active:isCourseShow}">
+                <div class="block-header"><span class="title">產生個人化課程</span><span class="back" ng-click="hideCourse('quit')"><i class="fa fa-times icon-back"></i></span></div>
+                <div class="block-body">
+                    <div class="course-options" ng-class="courseStatus['options']">
+                        <div class="scroller">
+                            <section class="clearfix option">
+                                <div class="course-title goal-title">選擇訓練目標<i class="fa fa-check icon-success" ng-class="{active:isGoalSet}"></i></div>
+                                <div class="goal-options btn-group">
+                                    <div class="options options-strength">
+                                        <button class="btn btn-options btn-lg" ng-class="{active:selectedGoal['strength']}" ng-click="setGoal('肌力')">肌力</button>
+                                    </div>
+                                    <div class="options options-endurance">
+                                        <button class="btn btn-options btn-lg" ng-class="{active:selectedGoal['endurance']}" ng-click="setGoal('肌耐力')">肌耐力</button>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="clearfix option">
+                                <div class="course-title part-title">選擇訓練部位<i class="fa fa-check icon-success" ng-class="{active:isPartSet}"></i></div>
+                                <div class="part-options btn-group">
+                                    <div class="options options-chest">
+                                        <button class="btn btn-options btn-lg" ng-class="{active:selectedPart['complex']}" ng-click="setPart('複合')">複合部位</button>
+                                    </div>
+                                    <div class="options options-chest">
+                                        <button class="btn btn-options btn-lg" ng-class="{active:selectedPart['chest']}" ng-click="setPart('胸')">胸肌</button>
+                                    </div>
+                                    <div class="options options-back">
+                                        <button class="btn btn-options btn-lg" ng-class="{active:selectedPart['back']}" ng-click="setPart('背')">背肌</button>
+                                    </div>
+                                    <div class="options options-shoulder">
+                                        <button class="btn btn-options btn-lg" ng-class="{active:selectedPart['shoulder']}" ng-click="setPart('肩')">肩膀</button>
+                                    </div>
+                                    <div class="options options-belly">
+                                        <button class="btn btn-options btn-lg" ng-class="{active:selectedPart['belly']}" ng-click="setPart('腹')">腹肌</button>
+                                    </div>
+                                    <div class="options options-foot">
+                                        <button class="btn btn-options btn-lg" ng-class="{active:selectedPart['foot']}" ng-click="setPart('腳')">腿肌</button>
+                                    </div>
+                                    <div class="options options-two">
+                                        <button class="btn btn-options btn-lg" ng-class="{active:selectedPart['two']}" ng-click="setPart('肱二頭')">二頭肌</button>
+                                    </div>
+                                    <div class="options options-three">
+                                        <button class="btn btn-options btn-lg" ng-class="{active:selectedPart['three']}" ng-click="setPart('肱三頭')">三頭肌</button>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="clearfix option">
+                                <div class="course-title device-title">選擇擁有的訓練器材<i class="fa fa-check icon-success" ng-class="{active:isDeviceSet}"></i></div>
+                                <div class="device-option">
+                                    <div class="options" ng-repeat="device in deviceButtonList">
+                                        <button class="btn btn-options btn-lg" ng-class="{active:selectedDevice[device.eng]}" ng-click="setDevice(device.chi)">{{device.chi}}</button>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="clearfix option">
+                                <button class="btn btn-options btn-lg pull-right" ng-click="createCourse()">產生個人化課程<i class="fa fa-arrow-circle-o-right"></i></button>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="course-preview" ng-class="courseStatus['preview']">
+                        <div class="scroller">
+                            <div class="preview-course">
+                                <div class="course-title preview-title">
+                                    個人化課程預覽
+                                </div>
+                                <div class="preview-list" ng-repeat="course in previewList">
+                                    <p>{{course.day}}</p>
+                                    <div class="preview-posture" ng-repeat="posture in course.posture" ng-click="showPostureDetail(posture.pos)">
+                                        <p>{{posture.pos}}<i class="fa fa-chevron-right pull-right"></i></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="preview-date clearfix">
+                                <div class="course-title date-title">
+                                    選擇課程開始日期
+                                </div>
+                                <div class="date-options" ng-repeat="date in previewDate">
+                                    <div class="options options-date">
+                                        <button class="btn btn-options" ng-class="activeDate[$index]" ng-click="setDate($index)">
+                                            <p>{{date.month}}/{{date.day}}</p>
+                                            <p>{{date.weekday}}</p>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="preview-confirm clearfix">
+                                <button class="btn btn-options btn-lg" id='btn-confirm' ng-click="courseConfirm()">確認課程</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 動作詳細 -->
+                    <div class="course-posture" ng-class="courseStatus['posture']">
+                        <div class="course-title posture-title">
+                            {{posture.name}}
+                        </div>
+                        <div class="posture-video">
+                            <iframe class="posture-iframe" ng-src="{{posture.src}}"></iframe>
+                        </div>
+                        <div class="posture-back">
+                            <button class="btn btn-options" ng-click="backPreviewList()">返回課程預覽</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 詳細block -->
+            <div class="block-detail-outer" ng-class="{active:isDetailActive}" ng-click="showIndex()"></div>
+            <!-- 詳細block1 -->
+            <div class="block-detail" id="block-detail-1" ng-class="{active:detail1Active}">
+                <div class="prev"></div>
+                <div class="next"></div>
+                <div class="block-header">
+                    <sapn class="title">{{detail1Options.title}}</sapn><span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span>
+                </div>
+                <div class="block-body">
+                    <div id="detail1-main-chart"></div>
+                    <div id="detail1-right-tabs">
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPos['pos1']}" ng-click="setChartPos('pos1')">{{chartPosture.pos1}}</button>
+                        </div>
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPos['pos2']}" ng-click="setChartPos('pos2')">{{chartPosture.pos2}}</button>
+                        </div>
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPos['pos3']}" ng-click="setChartPos('pos3')">{{chartPosture.pos3}}</button>
+                        </div>
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPos['pos4']}" ng-click="setChartPos('pos4')">{{chartPosture.pos4}}</button>
+                        </div>
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPos['pos5']}" ng-click="setChartPos('pos5')">{{chartPosture.pos5}}</button>
+                        </div>
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPos['pos6']}" ng-click="setChartPos('pos6')">{{chartPosture.pos6}}</button>
+                        </div>
+                    </div>
+                    <div id="detail1-left-chart"></div>
+                    <div id="detail1-right-chart"></div>
+                </div>
+            </div>
+            <!-- 詳細block2 -->
+            <div class="block-detail" id="block-detail-2" ng-class="{active:detail2Active}">
+                <div class="prev"></div>
+                <div class="next"></div>
+                <div class="block-header">
+                    <sapn class="title">{{detail2Options.title}}</sapn><span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span>
+                </div>
+                <div class="block-body">
+                    <div id="detail2-main-chart"></div>
+                    <div id="detail2-right-tabs">
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPart['胸肌']}" ng-click="setChartPart('胸肌')">胸肌</button>
+                        </div>
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPart['背肌']}" ng-click="setChartPart('背肌')">背肌</button>
+                        </div>
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPart['肩膀']}" ng-click="setChartPart('肩膀')">肩膀</button>
+                        </div>
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPart['腹肌']}" ng-click="setChartPart('腹肌')">腹肌</button>
+                        </div>
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPart['腿部']}" ng-click="setChartPart('腿部')">腿部</button>
+                        </div>
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPart['二頭肌']}" ng-click="setChartPart('二頭肌')">二頭肌</button>
+                        </div>
+                        <div class="options-chart">
+                            <button class="btn btn-options" ng-class="{active:chartPart['三頭肌']}" ng-click="setChartPart('三頭肌')">三頭肌</button>
+                        </div>
+                    </div>
+                    <div id="detail2-left-chart"></div>
+                    <div id="detail2-right-chart"></div>
+                </div>
+            </div>
+            <!-- 相簿 -->
+            <div class="block-detail" id="block-detail-3" ng-class="{active:detail3Active}">
+                <div class="block-header"><span class="title">個人相簿</span><span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span></div>
+                <div class="block-body slide">
+                    <div class="detail-photo-list active">
+                        <div class="scroller">
+                            <div class="photo-list">
+                                <div class="photo-outer" ng-repeat="photo in photoList">
+                                    <div class="photo-inner">
+                                        <img ng-src="{{photo.Url}}" ng-click="showPhoto(photo)">
+                                        <button class="btn btn-danger" ng-click="deletePhoto(photo)">刪除照片</button>
+                                    </div>
+                                </div>
+                                <div class="photo-outer">
+                                    <div class="photo-inner">
+                                        <div class="photo-preview">
+                                            <img ng-src="{{photo.upload}}">
+                                        </div>
+                                        <div class="fileUpload btn btn-warning">
+                                            <span>上傳</span>
+                                            <input type="file" id="photo-upload" class="upload" fileread="photo.upload" />
+                                        </div>
+                                        <div class="upload-confirm">
+                                            <button class="btn btn-success" style="width:100%" ng-click="uploadPhoto()">確定</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="photo-detail" ng-click="backPhotoList()" ng-if="isPhotoClick" ng-class="{active:isPhotoShow}">
+                <img class="detail-image" ng-src="{{detailPhoto.Url}}">
+            </div>
+            <!-- 詳細block4 -->
+            <div class="block-detail" id="block-detail-4" ng-class="{active:detail4Active}">
+                <div class="block-header"><span class="title">{{detail4Options.title}}</span><span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span></div>
+                <div class="block-body">
+                    <div class="detail4-calendar">
+                        <div class="calendar-week col-sm-1" ng-repeat="week in calendar">
+                            <div class="week-weekday">{{week.weekdayTW}}</div>
+                            <div class="week-day" ng-click="showCalendarPosture(week.day1,week.day1Posture,week.day1Complete)">{{week.day1|date:'dd'}}<img class="day-thumb" ng-src="{{week.day1Thumb}}"></div>
+                            <div class="week-day" ng-click="showCalendarPosture(week.day2,week.day2Posture,week.day2Complete)">{{week.day2|date:'dd'}}<img class="day-thumb" ng-src="{{week.day2Thumb}}"></div>
+                            <div class="week-day" ng-click="showCalendarPosture(week.day3,week.day3Posture,week.day3Complete)">{{week.day3|date:'dd'}}<img class="day-thumb" ng-src="{{week.day3Thumb}}"></div>
+                            <div class="week-day" ng-click="showCalendarPosture(week.day4,week.day4Posture,week.day4Complete)">{{week.day4|date:'dd'}}<img class="day-thumb" ng-src="{{week.day4Thumb}}"></div>
+                            <div class="week-day" ng-click="showCalendarPosture(week.day5,week.day5Posture,week.day5Complete)">{{week.day5|date:'dd'}}<img class="day-thumb" ng-src="{{week.day5Thumb}}"></div>
+                        </div>
+                        <div class="calendar-posture-outer col-sm-5">
+                            <div class="calendar-posture-inner slide">
+                                <div class="posture-list" ng-class="{active:isPostureListShow}">
+                                    <div class="posture-date">{{postureDate | date:'yyyy-MM-dd' }}</div>
+                                    <div class="posture-title">{{postureTitle}}</div>
+                                    <div class="posture-name" ng-click='showPosture(posture.posture)' ng-repeat="posture in postureList">
+                                        {{posture.posture}}
+                                    </div>
+                                </div>
+                                <div class="posture-detail" ng-class="{active:isPostureDetailShow}">
+                                    {{posture.name}}
+                                    <iframe class="posture-video" ng-src="{{posture.src}}" frameborder="0" class="posture-video"></iframe>
+                                    <button class="btn btn-flat btn-lg" ng-click="showPostureList()">返回</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 詳細block5 -->
+            <div class="block-detail" id="block-detail-5" ng-class="{active:detail5Active}">
+                <div class="prev"></div>
+                <div class="next"></div>
+                <div class="block-header">
+                    <input type="text" class="input-title" placeholder="肌友交流標題" ng-model="edit.title">
+                    <span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span>
+                </div>
+                <div class="block-body">
+                    <div class="detail-edit">
+                        <div class="scroller edit-scroller text-center">
+                            <textarea type="text" class="form-control" id="edit-area" placeholder="{{edit.holder}}" ng-model="edit.content"></textarea>
+                            <button ng-if="!isCreateMessage" ng-click="deleteMessage()" class="btn btn-danger btn-lg btn-gap">刪除</button>
+                            <button ng-if="!isCreateMessage" ng-click="submitMessage()" class="btn btn-flat btn-lg">修改</button>
+                            <button ng-if="isCreateMessage" ng-click="createMessage()" class="btn btn-success btn-lg">新增</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-bar" ng-class="{active:detail5Active}">
+                <div class="bar-create">
+                    <span ng-click="newMessage()"><i class="fa fa-plus fa-lg"></i></span>
+                </div>
+                <div class="bar-search">
+                    <i class="fa fa-search inline-search"></i>
+                    <input type="text" class="input-search" ng-model="search.title">
+                </div>
+            </div>
+            <div class="detail-list" ng-class="{active:detail5Active}">
+                <div class="block-header">肌友交流列表</div>
+                <div class="block-body">
+                    <div class="scroller title-scroller">
+                        <div class="block-title-list" ng-click="editMessage(message)" ng-repeat="message in messageList | filter:search">
+                            <div class="block-title-edit">{{message.title}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 修改個人資料 -->
+            <div class="block-detail" id="block-detail6" ng-class="{active:detail6Active}">
+                <div class="block-header">
+                    <span class="title">修改個人資料</span>
+                    <span class="back" ng-click="showIndex()"><i class="fa fa-times icon-back"></i></span>
+                </div>
+                <div class="block-body">
+                    <div class="userEdit-editAll">
+                        <section class="clearfix block-userEdit-info">
+                            <div class="info-photo-preview">
+                                <img id="output" style="width:126px; height:126px;" ng-src={{loginUser.photo}}>
+                            </div>
+                            <div class="info-photo-upload">
+                                <div class="fileUpload btn btn-warning">
+                                    <span>上傳</span>
+                                    <input type="file" class="upload" fileread="loginUser.photo" />
+                                </div>
+                                <div class="upload-confirm">
+                                    <button class="btn btn-success" style="width:100%" ng-click="uploadPhoto()">確定</button>
+                                </div>
+                            </div>
+                            <div class="info-name clearfix">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">
+                                        姓名
+                                    </label>
+                                    <input type="text" class="form-control" ng-model="loginUser.name" name="name">
+                                </div>
+                            </div>
+                            <div class="info-password"></div>
+                        </section>
+                        <section class="clearfix block-userEdit-status">
+                            <div class="userEdit-left">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">
+                                        身高
+                                    </label>
+                                    <input type="text" class="form-control" ng-model="loginUser.height" name="height">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">
+                                        體重
+                                    </label>
+                                    <input type="text" class="form-control" ng-model="loginUser.weight" name="weight">
+                                </div>
+                            </div>
+                            <div class="userEdit-right">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">
+                                        體脂
+                                    </label>
+                                    <input type="text" class="form-control" ng-model="loginUser.bodyfat" name="bodyfat">
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">
+                                        基礎代謝率
+                                    </label>
+                                    <input type="text" class="form-control" ng-model="loginUser.bmr" name="bmr">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    病歷
+                                </label>
+                                <input type="text" class="form-control form-disease" ng-model="loginUser.disease" name="disease">
+                            </div>
+                        </section>
+                    </div>
+                    <div class="userEdit-editPassword">
+                        <div class="form-group col-sm-4">
+                            <label class="col-sm-5 control-label">
+                                舊密碼
+                            </label>
+                            <input type="text" class="form-control edit-input" ng-model="editPassword.oldPassword" name="disease">
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label class="col-sm-5 control-label">
+                                新密碼
+                            </label>
+                            <input type="text" class="form-control edit-input" ng-model="editPassword.newPassword" name="disease">
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label class="col-sm-5 control-label">
+                                密碼確認
+                            </label>
+                            <input type="text" class="form-control edit-input" ng-model="editPassword.passwordConfirm" name="disease">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-animate.min.js"></script>
+    <script src="~/Scripts/angular-touch.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/highcharts.js"></script>
+    <script src="~/Scripts/highcharts-more.js"></script>
+    <script src="~/Scripts/dark-unica.js"></script>
+    <script src="~/Scripts/board.js"></script>
+    <script src="~/Scripts/chart.js"></script>
+    <script>
+    window.account="@HttpContext.Current.User.Identity.Name";
+    </script>
+</body>
+</html>

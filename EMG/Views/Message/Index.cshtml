@@ -1,0 +1,143 @@
+﻿@model EMG.Model.MessageListView
+@{
+    ViewBag.Title = "肌友交流";
+    Layout = null;
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval.js")
+}
+
+@*@if (Model.Identity != null)
+{*@
+    <div id="CreateData">
+        @Html.ActionLink("新增留言", "Create", "Message")
+    </div>
+
+    <h3>肌友交流</h3>
+
+    @using (Html.BeginForm())
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.Search)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Search)
+                </td>
+                <td>
+                    <input type="submit" value="搜尋" />
+                </td>
+            </tr>
+        </table>
+            <br />
+    }
+    @if (!Model.MessageList.Count.Equals(0))
+    {
+        foreach (var item in Model.MessageList)
+        {
+            <table border="1" width="504" >
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(m => m.MessageList[0].UserName)
+                    </td>
+                    <td>
+                        @item.UserName
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(m => m.MessageList[0].Title)
+                    </td>
+                    <td>
+                        @item.Title
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(m => m.MessageList[0].Messages)
+                    </td>
+                    <td>
+                        @item.Messages
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(m => m.MessageList[0].CreateTime)
+                    </td>
+                    <td>
+                        @item.CreateTime
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @if(User.Identity.IsAuthenticated)
+                        {
+                            if(User.Identity.Name == item.UserName)
+                            {
+                                @Html.ActionLink("修改留言 ", "Edit", new { mId = item.MId })
+                            }
+                            if (User.Identity.Name == "Boss")
+                            {
+                                @Html.ActionLink("刪除留言 ", "Delete", new { mId = item.MId })
+                            }
+                        }
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @Html.Action("Index", "Reply", new { mId = item.MId })
+                    </td>
+                </tr>
+            </table>
+        }
+            <table>
+                <tr>
+                    <td>
+                        @if (Model.Paging.NowPage > 1)
+                        {
+                            @Html.ActionLink("<< ", "Index", new { Identity = Model.Identity, Role = Model.Role, Page = 1, Search = Model.Search })
+                            @Html.ActionLink("< ", "Index", new { Identity = Model.Identity, Role = Model.Role, Page = Model.Paging.NowPage - 1, Search = Model.Search })
+                        }
+                    </td>
+                    <td>
+                        @for (var page = (Model.Paging.NowPage - 6); page < (Model.Paging.NowPage + 6); page++)
+                        {
+                            if ((page > 0) && (page <= Model.Paging.NowPage))
+                            {
+                                if (page == Model.Paging.NowPage)
+                                {
+                                    <b>@page</b>
+                                }
+                                else
+                                {
+                                    @Html.ActionLink(page.ToString(), "Index", new { Identity = Model.Identity, Role = Model.Role, Page = page, Search = Model.Search })
+                                }
+                            }
+                        }
+                    </td>
+                    <td>
+                        @if (Model.Paging.NowPage < Model.Paging.MaxPage)
+                        {
+                            @Html.ActionLink(" >", "Index", new { Identity = Model.Identity, Role = Model.Role, Page = Model.Paging.NowPage + 1, Search = Model.Search })
+                            @Html.ActionLink(" >>", "Index", new { Identity = Model.Identity, Role = Model.Role, Page = Model.Paging.MaxPage, Search = Model.Search })
+                        }
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+    }
+    else
+    {
+        <tr>
+            <td colspan="4">尚未有文章</td>
+        </tr>
+    }
+@*}*@
+@*else
+{
+        < text > 請先登入。</ text >
+           @Html.ActionLink("返回登入", "Login", "User")
+}*@
